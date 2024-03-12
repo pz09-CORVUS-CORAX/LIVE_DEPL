@@ -1,8 +1,6 @@
-from math import pi
-from matplotlib import lines
 from drawer import Drawer
 from line import Line
-from numpy import arccos, array, dot
+from numpy import array, cross, dot
 from bezier_tools import Bezier
 from numpy.linalg import norm
 
@@ -62,10 +60,16 @@ class Glyph:
         last_y = None
         last_ctrl_x = None
         last_ctrl_y = None
+        last_M_x = None
+        last_M_y = None
         for line in self.lines:
+            line.set_last_M_point(last_M_x, last_M_y)
             line.set_last_point(last_x, last_y)
             line.set_last_control_point(last_ctrl_x, last_ctrl_y)
             line.process_line(True)
+            if line.ltype == 'M':
+                last_M_x = line.points[0]
+                last_M_y = line.points[1]
             if len(line.points) >= 2:
                 last_x = line.points[len(line.points) - 2]
                 last_y = line.points[len(line.points) - 1]
@@ -101,6 +105,13 @@ class Glyph:
             line.print_line()
         print(self.svg_code())
         print()
+
+    def print_glyph_point_notation(self, accuracy: float = 0.1):
+        glyph_str = ''
+        glyph_str += ">" + self.unicode + '\n'
+        for line in self.lines:
+            glyph_str += line.print_line_point_notation(accuracy)
+        return glyph_str
      
     def draw_glyph(self, drawer: Drawer):
         for line in self.lines:
@@ -119,52 +130,70 @@ class Glyph:
     
     def last_line(self, line: Line) -> Line:
         index = self.lines.index(line)
-        if index == 0:
-            last_index = len(self.lines) - 1
-        else:
-            last_index = index - 1
-        last_l = self.lines[last_index]
-        if last_l.ltype == 'M' or last_l.ltype == 'Z':
-            return self.last_line(self.lines[last_index])
-        else:
-            return last_l
-        
-            
-        
+        if(line.ltype == 'M'):
+            for i in range(index, len(self.lines)):
+                if(self.lines[i].ltype == 'Z'):
+                    return self.lines[i]
+        last_l = self.lines[index - 1]
+        if last_l.ltype == 'M':
+            return self.last_line(last_l)
+        return last_l
     
-    def sharp_corners(self, drawer) -> list[list[float]]:
+    def sharp_corners(self) -> list[list[float]]:
         sharp_corners = []
         for i, line in enumerate(self.lines):
             last_line = self.last_line(line)
-            
+            if(line.ltype == 'Z'):
+                z_line = array([line.last_M_point[0] - line.last_point[0], line.last_M_point[1] - line.last_point[1]])
+                if(norm(z_line) == 0):
+                    continue
+            if(last_line.ltype == 'Z'):
+                z_line = array([last_line.last_M_point[0] - last_line.last_point[0], last_line.last_M_point[1] - last_line.last_point[1]])
+                if(norm(z_line) == 0):
+                    last_line = self.last_line(last_line)
+                    
             first_tangent = None
             second_tangent = None
 
-            if line.ltype == 'M' or line.ltype == 'Z':
+            if line.ltype == 'M':
                 continue
+            elif line.ltype == 'Z':
+                first_tangent = array([line.last_M_point[0] - line.last_point[0], line.last_M_point[1] - line.last_point[1]])
+                if(norm(first_tangent) != 0):
+                    first_tangent /= norm(first_tangent)
             elif line.ltype == 'L':
                 first_tangent = array([line.points[0] - line.last_point[0], line.points[1] - line.last_point[1]])
-                first_tangent /= norm(first_tangent)
+                if(norm(first_tangent) != 0):
+                    first_tangent /= norm(first_tangent)
             else:
                 if len(line.points) < 4:
-                    print("Error: Quadratic bezier with less than 4 points")
+                    print("Error: Quadratic bezier with less than 4 points in first tangent calculation")
                     print(line.ltype)
                 bezier = Bezier([line.last_point, line.points[0:2], line.points[2:4]])
                 first_tangent = bezier.tangent(0)
             if last_line.ltype == 'L':
-                second_tangent = array([last_line.points[0] - last_line.last_point[0], last_line.points[1] - last_line.last_point[1]])
-                second_tangent /= norm(second_tangent)
+                second_tangent = array([last_line.last_point[0] - last_line.points[0] , last_line.last_point[1] - last_line.points[1]])
+                if(norm(second_tangent) != 0):
+                    second_tangent /= norm(second_tangent)
+            elif last_line.ltype == 'Z':
+                second_tangent = array([last_line.last_point[0] - last_line.last_M_point[0], last_line.last_point[1] - last_line.last_M_point[1]])
+                if(norm(second_tangent) != 0): 
+                    second_tangent /= norm(second_tangent)
             else:
                 if len(last_line.points) < 4:
-                    print("Error: Quadratic last bezier with less than 4 points")
+                    print("Error: Quadratic last bezier with less than 4 points in second tangent calculation")
                     print(last_line.ltype)
                 bezier = Bezier([last_line.last_point, last_line.points[0:2], last_line.points[2:4]])
                 second_tangent = bezier.tangent(1)
+                second_tangent *= -1
 
-            angle = dot(first_tangent, second_tangent)
-            if(angle < 0.9 and angle > -0.9):
-                drawer.line(line.last_point[0], line.last_point[1], line.last_point[0] + first_tangent[0]*20, line.last_point[1] + first_tangent[1]*20, "red")
-                drawer.line(last_line.points[0], last_line.points[1], last_line.points[0] + second_tangent[0]*20, last_line.points[1] + second_tangent[1]*20, "blue")
+            first_tangent = array([first_tangent[0], first_tangent[1], 0])
+            second_tangent = array([second_tangent[0], second_tangent[1], 0])
+
+            cross_p = cross(first_tangent, second_tangent)
+            angle = cross_p[2]
+            print(cross_p)
+            if(angle > 0.5):
                 sharp_corners.append(line.last_point)
             
         return sharp_corners

@@ -1,5 +1,3 @@
-from os import close
-from MAT import MAT
 from xml.dom.minidom import parse
 from drawer import Drawer
 from gcode import Gcode
@@ -24,9 +22,14 @@ def parseFont(path_to_font: str) -> list[Glyph]:
 
 drawer = Drawer()
 
-glyphs = parseFont('abc.svg')
-current_glyph = glyphs[1]
-    
+glyphs = parseFont('TimesNewRoman.svg')
+current_glyph = glyphs[7]
+
+# file = open("ComicSans_parsed.txt", 'w')
+# for glyph in glyphs:
+#     file.write(glyph.print_glyph_point_notation(0.3))
+# file.close()
+
 current_glyph.scale(-0.03, 0.03)    
 current_glyph.transform(20, 10)    
 
@@ -52,23 +55,24 @@ def on_mouse_down(x, y):
 
 drawer.set_on_mouse_click(on_mouse_down)
 
-for line in current_glyph.lines:
-    if line.ltype == 'Q':
-        b = Bezier([line.last_point, line.points[0:2], line.points[2:4]])
-        b.draw(drawer)
-        #b.draw_quadratic_bounding_box(drawer)
-    elif line.ltype == 'L':
-        drawer.line(line.last_point[0], line.last_point[1], line.points[0], line.points[1])
+current_glyph.draw_glyph(drawer)
 
-for p in current_glyph.sharp_corners(drawer):
+# for line in current_glyph.lines:
+#     if line.ltype == 'Q':
+#         b = Bezier([line.last_point, line.points[0:2], line.points[2:4]])
+#         b.draw(drawer)
+#         #b.draw_quadratic_bounding_box(drawer)
+#     elif line.ltype == 'L':
+#         drawer.line(line.last_point[0], line.last_point[1], line.points[0], line.points[1])
+
+for p in current_glyph.sharp_corners():
     drawer.box([p[0]+5, p[1]+5], [p[0]-5, p[1]-5], "green")
 
-MAT = MAT(drawer)
-MAT.two_prong(current_glyph, current_glyph.lines[2], 0.5)
-for i in range(1, len(current_glyph.lines)-1):
-    l = current_glyph.lines[i]
-    MAT.two_prong(current_glyph, l, 0.5)
+# MAT = MAT(drawer)
+# MAT.two_prong(current_glyph, current_glyph.lines[2], 0.5)
+# for i in range(1, len(current_glyph.lines)-1):
+#     line = current_glyph.lines[i]
+#     MAT.two_prong(current_glyph, line, 0.5)
 
-current_glyph.print_glyph()
 
 drawer.update()

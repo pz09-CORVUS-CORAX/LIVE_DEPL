@@ -32,9 +32,6 @@ class Drawer:
         step = 0.01
         last_x = x0
         last_y = y0
-        self.canvas.create_rectangle(x0, y0, x0 +5, y0+5)
-        self.canvas.create_rectangle(x1, y1, x1 +5, y1+5)
-        self.canvas.create_rectangle(x2, y2, x2 +5, y2+5)
         t = step
         while t <= 1-step:
             bezier = self.__bezier(x0, y0, x1, y1, x2, y2, t)
