@@ -10,6 +10,11 @@ class Line:
         self.points = points.copy()
         self.last_point = []
         self.last_control_point = []
+        self.last_M_point = []
+
+    def set_last_M_point(self, x: float, y: float):
+        if x is not None and y is not None:
+            self.last_M_point = [x, y]
 
     def set_last_point(self, x: float, y: float):
         if x is not None and y is not None:
@@ -22,6 +27,33 @@ class Line:
     def print_line(self):
         print('[' + self.ltype + ']', end='->')
         print(self.points)
+    
+    def print_line_point_notation(self, accuracy: float = 0.1):
+        line_str = ""
+        last_point = self.last_point
+        if(self.ltype == 'L'):
+            line_str += str(last_point[0]) + ';' + str(last_point[1]) + '\t'
+            line_str += str(self.points[0]) + ';' + str(self.points[1]) + '\n'
+        elif self.ltype == 'Q':
+                step = accuracy
+                t = step
+                while t < 1:
+                    bezier = Bezier([self.last_point, self.points[0:2], self.points[2:4]])
+                    b_point = bezier.point(t)
+                    line_str += str(last_point[0]) + ';' + str(last_point[1]) + '\t'
+                    line_str += str(b_point[0]) + ';' + str(b_point[1]) + '\n'
+                    last_point = b_point
+                    t += step
+                b_point = bezier.point(1)
+                line_str += str(last_point[0]) + ';' + str(last_point[1]) + '\t'
+                line_str += str(b_point[0]) + ';' + str(b_point[1]) + '\n'
+        elif self.ltype == 'M':
+            line_str += "M\n"
+        elif self.ltype == 'Z':
+            line_str += str(self.last_point[0]) + ';' + str(self.last_point[1]) + '\t'
+            line_str += str(self.last_M_point[0]) + ';' + str(self.last_M_point[1]) + '\n'
+            line_str += "Z\n"
+        return line_str
 
     def svg_line(self) -> str:
         output = self.ltype
@@ -40,6 +72,9 @@ class Line:
             if len(self.last_control_point) > 1:
                 self.last_control_point[0] *= x
                 self.last_control_point[1] *= y
+            if len(self.last_M_point) > 1:
+                self.last_M_point[0] *= x
+                self.last_M_point[1] *= y
         else:
             print("Can't scale")
 
@@ -54,6 +89,9 @@ class Line:
             if len(self.last_control_point) > 1:
                 self.last_control_point[0] += x
                 self.last_control_point[1] += y
+            if len(self.last_M_point) > 1:
+                self.last_M_point[0] += x
+                self.last_M_point[1] += y
         else:
             print("Can't transform")
     
@@ -63,7 +101,7 @@ class Line:
             self.points.insert(0, 0)
         elif self.ltype == 'h' or self.ltype == 'H':
             self.ltype = 'l'
-            self.points.append(0, 0)
+            self.points.append(0)
         elif self.ltype == 'T' or self.ltype == 't':
             self.ltype = 'Q'
             lcp_lp_vec_x = 2*self.last_point[0] - self.last_control_point[0]
@@ -92,6 +130,8 @@ class Line:
             drawer.line(self.last_point[0], self.last_point[1], self.last_point[0]+self.points[0], self.last_point[1]+self.points[1])
         elif self.ltype == 'Q':
             drawer.bezier(self.last_point[0], self.last_point[1], self.points[0], self.points[1], self.points[2], self.points[3])
+        elif self.ltype == 'Z':
+            drawer.line(self.last_point[0], self.last_point[1], self.last_M_point[0], self.last_M_point[1])
 
     def distance_to_line(self, point: list[float]):
         if self.ltype == 'L':
@@ -102,6 +142,14 @@ class Line:
                     return norm(array([self.points[0], min(self.points[1], self.last_point[1])]) - array(point))
                 else:
                     return abs(self.points[0] - point[0])
+                
+            if(self.points[1] - self.last_point[1] == 0):
+                if point[0] > max(self.points[0], self.last_point[0]):
+                    return norm(array([max(self.points[0], self.last_point[0]), self.points[1]]) - array(point))
+                elif point[0] < min(self.points[0], self.last_point[0]):
+                    return norm(array([min(self.points[0], self.last_point[0]), self.points[1]]) - array(point))
+                else:
+                    return abs(self.points[1] - point[1])
             
             a = (self.points[1] - self.last_point[1])/ (self.points[0] - self.last_point[0])
             b = self.last_point[1] - a * self.last_point[0]
@@ -137,7 +185,14 @@ class Line:
                 else:
                     return [self.points[0], point[1]]
                 
-
+            if(self.points[1] - self.last_point[1] == 0):
+                if point[0] > max(self.points[0], self.last_point[0]):
+                    return [max(self.points[0], self.last_point[0]), self.points[1]]
+                elif point[0] < min(self.points[0], self.last_point[0]):
+                    return [min(self.points[0], self.last_point[0]), self.points[1]]
+                else:
+                    return [point[0], self.points[1]]
+                
             a = (self.points[1] - self.last_point[1])/ (self.points[0] - self.last_point[0])
             b = self.last_point[1] - a * self.last_point[0]
             x = (a*(point[1] - b) + point[0])/(a**2 + 1)
@@ -154,6 +209,8 @@ class Line:
                 y = min(self.points[1], self.last_point[1])
 
             return [x, y]
+        elif self.ltype == 'M':
+            return self.points
         elif self.ltype == 'Q':
             b = Bezier([self.last_point, self.points[0:2], self.points[2:4]])
             return b.closest_point(point)
