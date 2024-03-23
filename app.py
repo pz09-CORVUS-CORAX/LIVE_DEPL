@@ -4,6 +4,7 @@ import tempfile
 import subprocess
 import os
 import PyPDF2
+import fitz
 
 app = Flask(__name__)
 
@@ -82,14 +83,18 @@ def convert_pdf():
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.',1)[1].lower() == 'pdf'
 
+def get_pdf_size_with_pymupdf(pdf_path):
+    doc = fitz.open(pdf_path)
+    page = doc.load_page(0)
+    width_cm = (page.rect.width / 72) * 2.54
+    height_cm = (page.rect.height / 72) * 2.54
+    doc.close()
+    return width_cm, height_cm
+
 def is_pdf_size_valid(pdf_path, max_width_cm = 20, max_height_cm = 20):
-    with open(pdf_path, 'rb') as f:
-        pdf = PyPDF2.PdfReader(f)
-        page = pdf.pages[0] # MVP - we're taking only 1st page.
-        width, height = page.mediabox.upper_right
-        width_cm = float(width) / float(72 * 2.54)
-        height_cm = float(height) / float(72 * 2.54)
-        return width_cm <= max_width_cm and height_cm <- max_height_cm
+    width_cm, height_cm = get_pdf_size_with_pymupdf(pdf_path)
+    return width_cm <= max_width_cm and height_cm <= max_height_cm
+
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True) 
