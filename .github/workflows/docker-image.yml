@@ -2,9 +2,9 @@ name: Flask CI/CD Pipeline
 
 on:
   push:
-    branches: [ "Feature/server-part-init" ]
+    branches: [ "init/build-tools" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "init/build-tools" ]
 
 jobs:
 
