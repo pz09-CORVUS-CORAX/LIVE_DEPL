@@ -1,8 +1,13 @@
-from flask import Flask, Blueprint, jsonify, render_template_string, send_file, request
+from flask import Flask, Blueprint, jsonify, render_template_string, send_file, request, current_app
+from utils import allowed_file, is_pdf_size_valid
+from flask_caching import Cache
 import tempfile
 import os
 import subprocess
-from utils import allowed_file, is_pdf_size_valid
+
+current_app.config['CACHE_TYPE'] = 'simple'
+current_app.config['CACHE_DEFAULT_TIMEOUT'] = 300
+cache = Cache(current_app)
 
 pdf_blueprint = Blueprint('pdf_blueprint', __name__ )
 @pdf_blueprint.route('/upload-pdf', methods=['POST', 'GET'])
@@ -26,15 +31,28 @@ def upload_pdf():
             temp_pdf.close()
 
             if not is_pdf_size_valid(temp_pdf.name):
+                pdf_filename = os.path.basename(temp_pdf.name)
                 os.remove(temp_pdf.name)
                 return jsonify({"error": "PDF page size exceeds 20cm x 20cm"}), 400
+            
+            # zapis pliku do cache'u
+            cache_key = 'pdf_file_{}'.format(file.filename)
+            cache.set(cache_key, file.read(), timeout=3600)
+
             return render_template_string('''
                 Uploaded successfully! <br>
                 <form action="{{ url_for('pdf_blueprint.convert_pdf') }}" method="post">
-                    <input type="hidden" name="file_path" value={{ temp_pdf_name }}">
+                    <input type="hidden" name="file_path" value={{ cache_key }}">
                     <input type="submit" value="Convert PDF" class="btn">
                 </form>
-            ''', temp_pdf_name = temp_pdf.name)
+            ''', cache_key = cache_key)
+        
+            #caching snippet
+    cached_file = cache.get(cache_key)
+    if cached_file is not None:
+        return send_file(cached_file, as_attachment=True)
+    
+    cache.set(cache_key, pdf_filename, timeout=current_app.config['CACHE_DEFAULT_TIMEOUT'])
 
     return '''
         <form action="/pdf/upload-pdf" method="post" enctype="multipart/form-data">
@@ -64,3 +82,10 @@ def convert_pdf():
             os.remove(file_path)
         if os.path.exists(output_svg_path):
             os.remove(output_svg_path)
+
+@pdf_blueprint.route('/preview/<filename>')
+@cache.memoize()
+def preview_pdf(filename):
+    pdf_path = os.path.join(current_app.config)
+    return send_file()
+#TODO ...
