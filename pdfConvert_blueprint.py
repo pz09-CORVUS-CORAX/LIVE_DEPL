@@ -13,6 +13,7 @@ pdf_blueprint = Blueprint('pdf_blueprint', __name__ )
 @pdf_blueprint.route('/upload-pdf', methods=['POST', 'GET'])
 # @cache.memoize()
 def upload_pdf():
+    print("Inside upload_pdf route")
     current_app.config['CACHE_TYPE'] = 'simple'
     current_app.config['CACHE_DEFAULT_TIMEOUT'] = 300
     cache = Cache(current_app) 
@@ -44,11 +45,13 @@ def upload_pdf():
 
             print(len(pdf_data))
             
-            images = convert_pdf_to_images(pdf_data)
-            cache_key = 'pdf_file_{}'.format(file.filename)
+            cache_key = temp_pdf.name
+            # cache_key = 'pdf_file_{}'.format(file.filename)
             cache.set(cache_key, pdf_data, timeout=3600)
             temp_pdf.close()
-            return render_template('upload-pdf.html', images=images, cache_key = cache_key)
+
+            return send_file(temp_pdf.name, as_attachment=False)
+
             # return render_template_string('''
             #     Uploaded successfully! <br>
             #     <form action="{{ url_for('pdf_blueprint.convert_pdf') }}" method="post">
@@ -100,12 +103,9 @@ def convert_pdf_to_images(pdf_data):
         page = doc.load_page(0)
         pix = page.get_pixmap()
         # img_bytes = pix.get_image_data()
-        #  img_bytes = pix.samples
-        #    img_bytes = pix.getPNGData()  
-        # or
-        #   pix = Pixmap(page)
-        #   img_bytes = pix.pixels()
-        img_base64 = base64.b64encode(img_bytes).decode('utf-8')
+        img_bytes = pix.samples
+        # img_bytes = pix.getPNGData()  
+        img_base64 = base64.b64encode(img_bytes).decode('ascii')
         images.append(img_base64)
     return images
 # 
