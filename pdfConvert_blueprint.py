@@ -1,19 +1,22 @@
-from flask import Flask, Blueprint, jsonify, render_template_string, render_template, send_file, request, current_app
+from flask import Flask, Blueprint, render_template_string, render_template, send_file, request, current_app, jsonify
 from utils import allowed_file, is_pdf_size_valid
 from flask_caching import Cache
+from fitz import Pixmap
 import tempfile
 import os
 import subprocess
 import base64
+import fitz
 
-current_app.config['CACHE_TYPE'] = 'simple'
-current_app.config['CACHE_DEFAULT_TIMEOUT'] = 300
-cache = Cache(current_app)
 
 pdf_blueprint = Blueprint('pdf_blueprint', __name__ )
 @pdf_blueprint.route('/upload-pdf', methods=['POST', 'GET'])
-@cache.memoize()
+# @cache.memoize()
 def upload_pdf():
+    current_app.config['CACHE_TYPE'] = 'simple'
+    current_app.config['CACHE_DEFAULT_TIMEOUT'] = 300
+    cache = Cache(current_app) 
+
     if request.method == 'POST':
         # Sprawdzamy plik w żądaniu
         if 'file' not in request.files:
@@ -37,7 +40,10 @@ def upload_pdf():
                 return jsonify({"error": "PDF page size exceeds 20cm x 20cm"}), 400
             
             # zapis pliku do cache'u
-            pdf_data = file.read()
+            pdf_data = temp_pdf.read()
+
+            print(len(pdf_data))
+            
             images = convert_pdf_to_images(pdf_data)
             cache_key = 'pdf_file_{}'.format(file.filename)
             cache.set(cache_key, pdf_data, timeout=3600)
@@ -93,7 +99,13 @@ def convert_pdf_to_images(pdf_data):
     if len(doc) > 0:
         page = doc.load_page(0)
         pix = page.get_pixmap()
-        img_bytes = pix.get_bits()
+        # img_bytes = pix.get_image_data()
+        #  img_bytes = pix.samples
+        #    img_bytes = pix.getPNGData()  
+        # or
+        #   pix = Pixmap(page)
+        #   img_bytes = pix.pixels()
         img_base64 = base64.b64encode(img_bytes).decode('utf-8')
         images.append(img_base64)
     return images
+# 
