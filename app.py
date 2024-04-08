@@ -1,39 +1,110 @@
-from flask import Flask, render_template_string
+from flask import Flask, Blueprint, render_template_string, render_template, send_file, request, current_app, jsonify, redirect
+from utils import allowed_file, is_pdf_size_valid
 from flask_caching import Cache
-from pdfConvert_blueprint import pdf_blueprint
+from flask_cors import CORS
+import tempfile
+import os
+import subprocess
+import base64
 import fitz
 
-def create_app():
-    app = Flask(__name__)
 
-    #Konfiguracja cache'u
-    app.config['CACHE_TYPE'] = 'simple'
-    app.config['CACHE_DEFAULT_TIMEOUT'] = 300
-    # cache = Cache(app)
+# def create_app():
+#     app = Flask(__name__)
+#     cors = CORS(app, origins='*')
 
-    app.register_blueprint(pdf_blueprint, url_prefix='/pdf')
+#     #Konfiguracja cache'u
+#     # app.config['CACHE_TYPE'] = 'simple'
+#     # app.config['CACHE_DEFAULT_TIMEOUT'] = 300
+#     # cache = Cache(app)
 
+#     app.register_blueprint(pdf_blueprint, url_prefix='/pdf')
 
-    @app.route('/')
-    def home():
-        return render_template_string('''
-            <h1>Konwerter PDF na Gcode</h1>
-            <a href="/pdf/upload-pdf" class="btn">Upload PDF</a>
-            <style>
-                btn {
-                    display: inline-block;
-                    padding: 10px 20px;
-                    background-color: #007bff;
-                    color: white;
-                    text-decoration: none;
-                    border-radius: 5px
-                }
-            </style>
-        ''')
-    return app
+#     @app.route('/')
+#     def home():
+#         return render_template_string('''
+#             <h1>Konwerter PDF na Gcode</h1>
+#         ''')
+#     return app
 
-# Tworzymy instancje dla aplikacji
-app = create_app()
+# # Tworzymy instancje dla aplikacji
+# app = create_app()
+
+pdf_blueprint = Blueprint('pdf_blueprint', __name__)
+
+@pdf_blueprint.route('/upload-pdf', methods=['POST'])
+def upload_pdf():
+    print(request.method)
+    print("Inside upload_pdf route")
+    print(request.files)  # Log the content of the files received
+    print(request.headers) # Log the request headers (Optional)
+
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            return jsonify({"error": "Brak części plikowej"}), 400
+        
+        file = request.files['file']
+
+        if file.filename == '':
+            return jsonify({"error": "Nie wybrano żadnego pliku"}), 400
+        
+        if file and allowed_file(file.filename):
+            temp_pdf = tempfile.NamedTemporaryFile(delete=False, suffix='.pdf')
+            file.save(temp_pdf.name)
+
+            pdf_data = temp_pdf.read()
+
+            if not is_pdf_size_valid(temp_pdf.name):
+                os.remove(temp_pdf.name)
+                return jsonify({"error": "Rozmiar dokumentu PDF przekracza 20cm"}), 400
+            
+            cache_key = temp_pdf.name
+            cache.set(cache_key, pdf_data, timeout=3600)
+            temp_pdf.close()
+
+            return jsonify({"pdf_path": temp_pdf.name})
+        else:
+            return jsonify({"error": "Nieprawidłowy format pliku"}), 400
+        
+@pdf_blueprint.route('/upload-pdf', methods=['GET'])
+def redirect_from_get():
+    return redirect('/')
+
+@pdf_blueprint.route('/workfile/<path:pdf_path>')
+def get_pdf(pdf_path):
+    if cache.get(pdf_path):
+        return send_file(pdf_path, as_attachment=False)
+    else:
+        return jsonify({"error": "Nie znaleziono pliku PDF"}), 404
+
+       
+@pdf_blueprint.route('/convert-pdf', methods=['POST'])
+def convert_pdf():
+    file_path = request.form.get('file_path')
+    if not file_path:
+        return jsonify({"error": "File path not received in request"}), 400
+    if not os.path.exists(file_path):
+        return jsonify({"error": "File does not exist at the provided path"}), 400
+
+    output_svg_path = file_path + '.svg'
+    try:
+        subprocess.check_call(['pdf2svg', file_path, output_svg_path, '1'])
+        return send_file(output_svg_path, as_attachment=True, download_name='converted.svg', mimetype='image/svg+xml')
+    except subprocess.CalledProcessError as e:
+        return jsonify({"error": "Failed to convert PDF to SVG"}), 500
+    finally:
+        #Cleanup plikow
+        if os.path.exists(file_path):
+            os.remove(file_path)
+        if os.path.exists(output_svg_path):
+            os.remove(output_svg_path)
+
+app = Flask(__name__)
+cache = Cache(app)
+app.config['CACHE_TYPE'] = 'simple'
+app.config['CACHE_DEFAULT_TIMEOUT'] = 3600
+app.register_blueprint(pdf_blueprint, url_prefix='/pdf')
+cors = CORS(app, origins='*')
 
 if __name__ == '__main__':
     app.run(debug=True) 
