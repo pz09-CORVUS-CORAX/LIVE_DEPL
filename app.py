@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template_string, render_template, send_file, request, current_app, jsonify, redirect
+from flask import Flask, Blueprint, render_template_string, render_template, send_file, request, current_app, jsonify, redirect, session
 from utils import allowed_file, is_pdf_size_valid
 from flask_caching import Cache
 from flask_cors import CORS, cross_origin
@@ -13,6 +13,10 @@ app = Flask(__name__)
 # cors = CORS(app, origins='*')
 CORS(app, origins="*", supports_credentials=True) 
 app.logger.setLevel(logging.DEBUG)  
+# ustawienia sesji
+
+#log 01:00-11-04
+custom_temp_dir = "static/temporaries" 
 
 pdf_blueprint = Blueprint('pdf_blueprint', __name__)
 
@@ -40,29 +44,25 @@ def upload_pdf():
                 
                 # if file and allowed_file(file.filename):
                 try:
-                    temp_pdf = tempfile.NamedTemporaryFile(delete=False, suffix='.pdf')
-                    file.save(temp_pdf.name)
-                    
+                    temp_pdf = tempfile.NamedTemporaryFile(delete=False, suffix='.pdf', dir=custom_temp_dir)
+                    file.seek(0)  # Reset file pointer for reading
+                    temp_pdf.write(file.read())
+                    # temp_pdf.close()
                     #new log 17:05-10-04
                     print('Temp file created[/upload-pdf]:', temp_pdf.name)
                     print('File exists[/upload-pdf], Size:', os.path.getsize(temp_pdf.name))
                     print('File contents[/uplaod-pdf] (first 300 bytes):', file.read(300))
                     print('[/upload-pdf] pdf_path before setPdfPath(temp_pdf.name):', temp_pdf.name)
 
-                    logging.debug("Temporary PDF [/upload-pdf] file created at: %s", temp_pdf.name)
-                    logging.debug("File exists[/upload-pdf]: %s, Size: %s", os.path.exists(temp_pdf.name), os.path.getsize(temp_pdf.name))
-
-                    temp_pdf.seek(0) 
+                    # temp_pdf.seek(0) 
                     initial_bytes = temp_pdf.read(300)
-                    logging.debug("File contents (first 300 bytes)[/upload-pdf]: %s", initial_bytes)
                     print("PDF Path(/upload-pdf -> temp_pdf.name):", temp_pdf.name)  # Verify the temporary file path
 
                     temp_pdf.close()
                     pdf_path = temp_pdf.name
+                    print("Full absolute path of temp file:", os.path.abspath(temp_pdf.name))
                     
-                    logging.debug("pdf_path in upload_pdf route: %s", pdf_path)
-                    logging.debug("File exists after closing [/upload-pdf]: %s, Size: %s", os.path.exists(pdf_path), os.path.getsize(pdf_path))
-
+                    print("pdf_path in upload_pdf route: %s", pdf_path)
                     # else:
                     # return jsonify({"error": "Nieprawidłowy format pliku"}), 400
                 except Exception as e:
@@ -81,35 +81,13 @@ def upload_pdf():
 def redirect_from_get():
     return redirect('/')
 
-@cross_origin()
+# @cross_origin()
 @pdf_blueprint.route('/validate-pdf', methods=['POST'])
 @cross_origin()
 def validate_pdf():
-    print('pdf_path received ON /validate-pdf:', request.form['pdf_path'])
-    # return jsonify({"message": "Test"}), 200
-    if 'pdf_path' not in request.form:
-        return jsonify({"error": "No pdf_path provided for validartion"})
-    pdf_path = request.form['pdf_path']
-    # new log: 17:22-10-04
-    logging.debug("pdf_path received in validate_pdf route: %s", pdf_path)
-
-    #Debugging17:25-10-04
-    if not os.path.exists(pdf_path):
-        print('File does not exist:', pdf_path)
-        #log 15:11-10-04
-        logging.error("File does not exist after upload (/validate-pdf):", pdf_path) 
-        return jsonify({"error": "PDF file not found after upload(/validate-pdf)"}), 404
-
-    # test 14:48-10-04
-    try:
-        if not is_pdf_size_valid(pdf_path):
-            logging.error("File is empty or corrupt:", pdf_path)
-            return jsonify({"error": "PDF size exceeds limit"})
-    except Exception as e: 
-        logging.exception("Unexpected error during validation:", e)
-        return jsonify({"error": "Internal server error"}), 500
     
     return jsonify({"isValid": True})
+
 
 @pdf_blueprint.route('/workfile/<path:pdf_path>')
 def get_pdf(pdf_path):
