@@ -9,27 +9,6 @@ import base64
 import fitz
 import logging
 
-# def create_app():
-#     app = Flask(__name__)
-#     cors = CORS(app, origins='*')
-
-#     #Konfiguracja cache'u
-#     # app.config['CACHE_TYPE'] = 'simple'
-#     # app.config['CACHE_DEFAULT_TIMEOUT'] = 300
-#     # cache = Cache(app)
-
-#     app.register_blueprint(pdf_blueprint, url_prefix='/pdf')
-
-#     @app.route('/')
-#     def home():
-#         return render_template_string('''
-#             <h1>Konwerter PDF na Gcode</h1>
-#         ''')
-#     return app
-
-# # Tworzymy instancje dla aplikacji
-# app = create_app()
-
 app = Flask(__name__)
 # cors = CORS(app, origins='*')
 CORS(app, origins="*", supports_credentials=True) 
@@ -50,9 +29,8 @@ def upload_pdf():
             if 'file' in request.files:
                 file = request.files['file']
                 
-                print(f"Filename: {file.filename}")  # Log filename
-                print(f"File size: {len(file.read())}")  # Log file size
-                # print(request.files['file'].read(500))
+                print(f"Filename1: {file.filename}")  # Log filename
+                print(f"File size1: {len(file.read())}")  # Log file size
 
                 if file.filename == '':
                     return jsonify({"error": "Nie wybrano żadnego pliku"}), 400
@@ -65,34 +43,26 @@ def upload_pdf():
                     temp_pdf = tempfile.NamedTemporaryFile(delete=False, suffix='.pdf')
                     file.save(temp_pdf.name)
                     
-                    #new log 14:59-10-04
-                    print('Temp file created:', temp_pdf.name)
-                    print('File exists, Size:', os.path.getsize(temp_pdf.name))
-                    print('File contents (first 300 bytes):', file.read(300))
-                    print('pdf_path before setPdfPath:', pdf_path)
+                    #new log 17:05-10-04
+                    print('Temp file created[/upload-pdf]:', temp_pdf.name)
+                    print('File exists[/upload-pdf], Size:', os.path.getsize(temp_pdf.name))
+                    print('File contents[/uplaod-pdf] (first 300 bytes):', file.read(300))
+                    print('[/upload-pdf] pdf_path before setPdfPath(temp_pdf.name):', temp_pdf.name)
 
-                    file.seek(0)
+                    logging.debug("Temporary PDF [/upload-pdf] file created at: %s", temp_pdf.name)
+                    logging.debug("File exists[/upload-pdf]: %s, Size: %s", os.path.exists(temp_pdf.name), os.path.getsize(temp_pdf.name))
 
-                    #Turned off for tests.
-                    # pdf_data = temp_pdf.read()
-
-                    # if not is_pdf_size_valid(temp_pdf.name):
-                    #     os.remove(temp_pdf.name)
-                    #     return jsonify({"error": "Rozmiar dokumentu PDF przekracza 20cm"}), 400
-                    
-                    # cache_key = temp_pdf.name
-                    # cache.set(cache_key, pdf_data, timeout=3600)
-
-                    print("PDF Path:", temp_pdf.name)  # Verify the temporary file path
-
-                    #tests:Latest14:13-10-04
-                    if os.path.exists(temp_pdf.name):
-                        print('File exists, Size:', os.path.getsize(temp_pdf.name))
-                    else:
-                        print('File does not exist!')
+                    temp_pdf.seek(0) 
+                    initial_bytes = temp_pdf.read(300)
+                    logging.debug("File contents (first 300 bytes)[/upload-pdf]: %s", initial_bytes)
+                    print("PDF Path(/upload-pdf -> temp_pdf.name):", temp_pdf.name)  # Verify the temporary file path
 
                     temp_pdf.close()
                     pdf_path = temp_pdf.name
+                    
+                    logging.debug("pdf_path in upload_pdf route: %s", pdf_path)
+                    logging.debug("File exists after closing [/upload-pdf]: %s, Size: %s", os.path.exists(pdf_path), os.path.getsize(pdf_path))
+
                     # else:
                     # return jsonify({"error": "Nieprawidłowy format pliku"}), 400
                 except Exception as e:
@@ -115,17 +85,20 @@ def redirect_from_get():
 @pdf_blueprint.route('/validate-pdf', methods=['POST'])
 @cross_origin()
 def validate_pdf():
-    print('pdf_path received:', request.form['pdf_path'])
+    print('pdf_path received ON /validate-pdf:', request.form['pdf_path'])
     # return jsonify({"message": "Test"}), 200
     if 'pdf_path' not in request.form:
         return jsonify({"error": "No pdf_path provided for validartion"})
     pdf_path = request.form['pdf_path']
+    # new log: 17:22-10-04
+    logging.debug("pdf_path received in validate_pdf route: %s", pdf_path)
 
-    #Debugging
+    #Debugging17:25-10-04
     if not os.path.exists(pdf_path):
         print('File does not exist:', pdf_path)
         #log 15:11-10-04
-        logging.error("File does not exist after upload:", pdf_path) 
+        logging.error("File does not exist after upload (/validate-pdf):", pdf_path) 
+        return jsonify({"error": "PDF file not found after upload(/validate-pdf)"}), 404
 
     # test 14:48-10-04
     try:

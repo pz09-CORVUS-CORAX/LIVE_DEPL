@@ -4,3 +4,4 @@ svgpathtools==1.6.1
 flake8==7.0.0
 poppler-utils==0.1.0
 PyMuPDF==1.24.0
+Flask_Cors==4.0.0
