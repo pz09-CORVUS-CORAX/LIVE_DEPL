@@ -71,8 +71,9 @@ def upload_pdf():
             else:
                 print("No file found in the request") 
                 return jsonify({"error": "Brak części plikowej"}), 400
-            
-        return jsonify({"message": "OK"})
+        
+        # new edit 09:58-11-04
+        return jsonify({"pdf_path": pdf_path})
     except Exception as e:
         logging.exception("Error during upload:", e)
         return jsonify({"error": "Internal server error"}), 500
