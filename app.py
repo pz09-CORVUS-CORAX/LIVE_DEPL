@@ -40,6 +40,7 @@ def upload_pdf():
                     return jsonify({"error": "Nie wybrano żadnego pliku"}), 400
                 
                 if not allowed_file(file.filename):
+                    os.remove(file.filename)
                     return jsonify({"error": "Nieprawidlowy format pliku"}), 400
                 
                 # if file and allowed_file(file.filename):
@@ -67,11 +68,14 @@ def upload_pdf():
                     # return jsonify({"error": "Nieprawidłowy format pliku"}), 400
                 except Exception as e:
                     logging.exception("Unexpected error during file handling:", e)
+                    os.remove(pdf_path)
                     return jsonify({"error": f"Błąd przetwarzania pliku: {str(e)}"}), 500
             else:
-                print("No file found in the request") 
+                print("No file found in the request")
+                os.remove(pdf_path)
                 return jsonify({"error": "Brak części plikowej"}), 400
-        
+        # 22:48-11-04
+        os.remove(pdf_path)
         # new edit 09:58-11-04
         return jsonify({"pdf_path": pdf_path})
     except Exception as e:
@@ -86,7 +90,37 @@ def redirect_from_get():
 @pdf_blueprint.route('/validate-pdf', methods=['POST'])
 @cross_origin()
 def validate_pdf():
+    print(request.method)
+    print("Inside validate-pdf route")
+    print(request.files)  # Log the content of the files received
+    print(request.data)  # Print raw request data
+    print(request.form)  # Print form data
+
+    if 'pdf_path' not in request.files:
+        return jsonify({"error": "No path /w pdf provided for validation"}), 400
     
+    pdf_file = request.files['pdf_path']
+
+    temp_file = tempfile.NamedTemporaryFile(delete=False)
+    pdf_file.save(temp_file.name)
+    pdf_path = temp_file.name
+    print("The pdf_path is [validate-block]:", pdf_path)
+
+    try: 
+        if not is_pdf_size_valid(pdf_path):
+            logging.error("File is empty or corrupt:", pdf_path)
+            os.remove(pdf_path)
+            return jsonify({"error": "PDF size exceeds limit[validate-block]"}), 413
+    except FileNotFoundError:
+        logging.error("File not found:", pdf_path)
+        os.remove(pdf_path)
+        return jsonify({"error": "PDF not Found[validate-block]"}), 404
+    except Exception as e:
+        logging.exception("Unexpected error during validation:", e)
+        os.remove(pdf_path)
+        return jsonify({"error": "Internal server error[validate-block]"}),
+    os.remove(pdf_path)
+    print(request.files)  # Log the content of the files received
     return jsonify({"isValid": True})
 
 
