@@ -134,24 +134,13 @@ def get_pdf(pdf_path):
        
 @pdf_blueprint.route('/convert-pdf', methods=['POST'])
 def convert_pdf():
-    file_path = request.form.get('file_path')
-    if not file_path:
-        return jsonify({"error": "File path not received in request"}), 400
-    if not os.path.exists(file_path):
-        return jsonify({"error": "File does not exist at the provided path"}), 400
-
-    output_svg_path = file_path + '.svg'
-    try:
-        subprocess.check_call(['pdf2svg', file_path, output_svg_path, '1'])
-        return send_file(output_svg_path, as_attachment=True, download_name='converted.svg', mimetype='image/svg+xml')
-    except subprocess.CalledProcessError as e:
-        return jsonify({"error": "Failed to convert PDF to SVG"}), 500
-    finally:
-        #Cleanup plikow
-        if os.path.exists(file_path):
-            os.remove(file_path)
-        if os.path.exists(output_svg_path):
-            os.remove(output_svg_path)
+    print(request.method)
+    print("Inside validate-pdf route")
+    print(request.files)  # Log the content of the files received
+    print(request.data)  # Print raw request data
+    print(request.form)  # Print form data
+    file_path = request.files('file_path')
+    return jsonify({"conversion": True})
 
 
 cache = Cache(app)
