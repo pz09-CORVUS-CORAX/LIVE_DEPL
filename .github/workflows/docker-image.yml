@@ -2,7 +2,7 @@ name: Flask CI/CD Pipeline
 
 on:
   push:
-    branches: [ "Feature/server-part-init" ]
+    branches: [ "Feature/server-part-init", "Feature/PDFValidation" ]
   pull_request:
     branches: [ "main" ]
 
@@ -19,6 +19,9 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.12.2
+
+    - name: Set image tag in environment file
+      run: echo "IMAGE_TAG=baszarinhi9816/corvuscoraxtest:latest" >> $GITHUB_ENV  
     
     - name: Build and Push Docker image
       uses: docker/build-push-action@v2
@@ -26,7 +29,7 @@ jobs:
         context: .
         file: ./Dockerfile
         push: false
-        tags: BASZARINHI9816/CORVUSCORAXtest:latest
+        tags: ${{ env.IMAGE_TAG }}
         
         #run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
 #TODO other tests
