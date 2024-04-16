@@ -135,11 +135,13 @@ def get_pdf(pdf_path):
 @pdf_blueprint.route('/convert-pdf', methods=['POST'])
 def convert_pdf():
     print(request.method)
-    print("Inside validate-pdf route")
+    print("Inside convert-pdf route")
     print(request.files)  # Log the content of the files received
     print(request.data)  # Print raw request data
     print(request.form)  # Print form data
-    file_path = request.files('file_path')
+    # edit 19:49-16-04
+    file_path = request.form['pdf_path']
+    print(file_path)
     return jsonify({"conversion": True})
 
 
