@@ -75,7 +75,7 @@ def upload_pdf():
                 os.remove(pdf_path)
                 return jsonify({"error": "Brak części plikowej"}), 400
         # 22:48-11-04
-        os.remove(pdf_path)
+        # os.remove(pdf_path)
         # new edit 09:58-11-04
         return jsonify({"pdf_path": pdf_path})
     except Exception as e:
@@ -101,7 +101,7 @@ def validate_pdf():
     
     pdf_file = request.files['pdf_path']
 
-    temp_file = tempfile.NamedTemporaryFile(delete=False)
+    temp_file = tempfile.NamedTemporaryFile(delete=False, dir=custom_temp_dir, suffix='.pdf')
     pdf_file.save(temp_file.name)
     pdf_path = temp_file.name
     print("The pdf_path is [validate-block]:", pdf_path)
@@ -120,7 +120,7 @@ def validate_pdf():
         os.remove(pdf_path)
         return jsonify({"error": "Internal server error[validate-block]"}),
     os.remove(pdf_path)
-    print(request.files)  # Log the content of the files received
+    print("wypisz pliki w [validate-pdf]:", request.files)  # Log the content of the files received
     return jsonify({"isValid": True})
 
 
@@ -139,11 +139,38 @@ def convert_pdf():
     print(request.files)  # Log the content of the files received
     print(request.data)  # Print raw request data
     print(request.form)  # Print form data
-    # edit 19:49-16-04
-    file_path = request.form['pdf_path']
+    # edit 19:49-16-04 + 20:30-16-04
+    file_path = request.form.get('pdf_path')
     print(file_path)
-    return jsonify({"conversion": True})
+    if not file_path:
 
+        return jsonify({"error": "File path not received in request"}), 400
+    if not os.path.exists(file_path):
+        return jsonify({"error": "File does not exist at the provided path"}), 400
+    
+    try:
+        with tempfile.NamedTemporaryFile(suffix='.svg', delete=False, dir=custom_temp_dir) as temp_svg_file:
+            print(temp_svg_file.name)
+            print("whole file", temp_svg_file)
+
+            output_svg_path = temp_svg_file.name
+
+            subprocess.check_call(['pdf2svg', file_path, output_svg_path, '1'])
+
+            # return jsonify({
+            #     "svg_path": output_svg_path
+            # })
+            with open(temp_svg_file.name, 'r') as f:
+                svg_content = f.read()
+
+            return svg_content, 200, {'Content-Type': 'image/svg+xml', 'Content-Disposition': 'attachment; filename=converted.svg'}  
+    except subprocess.CalledProcessError as e:
+        logging.error("Failed to convert PDF to SVG: %s", e)
+        return jsonify({"error": "Failed to convert PDF to SVG"}), 500
+    finally:
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            os.remove(output_svg_path)
 
 cache = Cache(app)
 app.config['CACHE_TYPE'] = 'simple'
