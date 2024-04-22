@@ -2,7 +2,7 @@ name: Flask CI/CD Pipeline
 
 on:
   push:
-    branches: [ "Feature/server-part-init", "Feature/PDFValidation" ]
+    branches: [ "Feature/Pdf-as-svg", "Feature/PDFValidation" ]
   pull_request:
     branches: [ "main" ]
 
@@ -28,8 +28,23 @@ jobs:
       with:
         context: .
         file: ./Dockerfile
-        push: false
+        push: true
         tags: ${{ env.IMAGE_TAG }}
         
         #run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-#TODO other tests
+
+  deploy:
+    #TODO add tests?
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build, Push and Release a Docker container to Heroku
+        uses: gonuit/heroku-docker-deploy@v1.3.3
+        with:
+          email: ${{ secrets.HEROKU_EMAIL }}
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
