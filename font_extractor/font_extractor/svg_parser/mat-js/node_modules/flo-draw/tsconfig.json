@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "module": "es2020",
+        "target": "es2020",
+        "declaration": true,
+        "noEmitOnError": true,
+        "sourceMap": true,
+        "outDir": "node",
+        "moduleResolution": "node"
+    },
+    "include": [
+        "src/index.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

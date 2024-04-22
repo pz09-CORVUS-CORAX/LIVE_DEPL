@@ -1,0 +1,159 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+<metadata>
+Created by FontForge 20230101 at Wed Mar 29 14:02:39 2017
+ By Ligowy gość
+Copyright 2011 Google Inc. All Rights Reserved.
+</metadata>
+<defs>
+<font id="Roboto-Italic" horiz-adv-x="0" >
+  <font-face 
+    font-family="Roboto"
+    font-weight="400"
+    font-style="italic"
+    font-stretch="normal"
+    units-per-em="2048"
+    panose-1="2 0 0 0 0 0 0 0 0 0"
+    ascent="1536"
+    descent="-512"
+    cap-height="1476"
+    bbox="58 -20.1479 1289.54 1476.13"
+    underline-thickness="100"
+    underline-position="-200"
+    slope="-12"
+    unicode-range="U+0042-0054"
+  />
+<missing-glyph horiz-adv-x="918" 
+d="M808 0h-708v1456h708v-1456zM754 84v1287l-274 -643zM154 1359v-1263l268 632zM194 54h515l-258 606zM451 796l258 606h-515z" />
+    <glyph glyph-name=".notdef" horiz-adv-x="918" 
+d="M808 0h-708v1456h708v-1456zM754 84v1287l-274 -643zM154 1359v-1263l268 632zM194 54h515l-258 606zM451 796l258 606h-515z" />
+    <glyph glyph-name="glyph1" 
+ />
+    <glyph glyph-name="glyph2" 
+ />
+    <glyph glyph-name="glyph3" 
+ />
+    <glyph glyph-name="glyph4" 
+ />
+    <glyph glyph-name="glyph5" 
+ />
+    <glyph glyph-name="glyph6" 
+ />
+    <glyph glyph-name="glyph7" 
+ />
+    <glyph glyph-name="glyph8" 
+ />
+    <glyph glyph-name="glyph9" 
+ />
+    <glyph glyph-name="glyph10" 
+ />
+    <glyph glyph-name="glyph11" 
+ />
+    <glyph glyph-name="glyph12" 
+ />
+    <glyph glyph-name="glyph13" 
+ />
+    <glyph glyph-name="glyph14" 
+ />
+    <glyph glyph-name="glyph15" 
+ />
+    <glyph glyph-name="glyph16" 
+ />
+    <glyph glyph-name="glyph17" 
+ />
+    <glyph glyph-name="glyph18" 
+ />
+    <glyph glyph-name="glyph19" 
+ />
+    <glyph glyph-name="glyph20" 
+ />
+    <glyph glyph-name="glyph21" 
+ />
+    <glyph glyph-name="glyph22" 
+ />
+    <glyph glyph-name="glyph23" 
+ />
+    <glyph glyph-name="glyph24" 
+ />
+    <glyph glyph-name="glyph25" 
+ />
+    <glyph glyph-name="glyph26" 
+ />
+    <glyph glyph-name="glyph27" 
+ />
+    <glyph glyph-name="glyph28" 
+ />
+    <glyph glyph-name="glyph29" 
+ />
+    <glyph glyph-name="glyph30" 
+ />
+    <glyph glyph-name="glyph31" 
+ />
+    <glyph glyph-name="glyph32" 
+ />
+    <glyph glyph-name="glyph33" 
+ />
+    <glyph glyph-name="glyph34" 
+ />
+    <glyph glyph-name="glyph35" 
+ />
+    <glyph glyph-name="glyph36" 
+ />
+    <glyph glyph-name="glyph37" 
+ />
+    <glyph glyph-name="B" unicode="B" horiz-adv-x="1247" 
+d="M59 0l253 1456l427 -1q223 0 334 -100t97 -279q-18 -209 -263 -315q98 -38 146.5 -130t39.5 -203q-15 -197 -158 -312.5t-370 -115.5h-506zM365 681l-91 -524l297 -1q136 0 228 73t107 197q14 118 -41 184t-173 70zM392 835l271 -1q127 0 214.5 65t102.5 179
+q13 106 -41.5 160t-180.5 59l-286 1z" />
+    <glyph glyph-name="glyph39" 
+ />
+    <glyph glyph-name="glyph40" 
+ />
+    <glyph glyph-name="glyph41" 
+ />
+    <glyph glyph-name="glyph42" 
+ />
+    <glyph glyph-name="glyph43" 
+ />
+    <glyph glyph-name="glyph44" 
+ />
+    <glyph glyph-name="glyph45" 
+ />
+    <glyph glyph-name="glyph46" 
+ />
+    <glyph glyph-name="glyph47" 
+ />
+    <glyph glyph-name="glyph48" 
+ />
+    <glyph glyph-name="glyph49" 
+ />
+    <glyph glyph-name="glyph50" 
+ />
+    <glyph glyph-name="O" unicode="O" horiz-adv-x="1376" 
+d="M593 -20q-139 3 -241.5 67t-161.5 188.5t-65 279.5q-6 121 27 299t114 321t197 229q157 116 358 112q213 -4 336 -147.5t132 -388.5q4 -105 -21.5 -267t-91 -301t-166.5 -233q-176 -164 -417 -159zM1104 894q6 197 -69 305.5t-223 112.5q-134 4 -239.5 -72t-173 -227.5
+t-85.5 -383.5l-3 -65q-6 -196 70 -307t221 -115q189 -5 313.5 136.5t165.5 397.5q20 126 23 218z" />
+    <glyph glyph-name="glyph52" 
+ />
+    <glyph glyph-name="glyph53" 
+ />
+    <glyph glyph-name="R" unicode="R" horiz-adv-x="1233" 
+d="M685 589h-336l-102 -589h-189l253 1456l438 -1q229 -1 349 -116t101 -313q-11 -137 -99.5 -241t-235.5 -157l226 -615l-1 -13h-200zM376 746l276 -1q144 0 243 76.5t116 204.5q15 125 -50 196t-198 75l-291 1z" />
+    <glyph glyph-name="glyph55" 
+ />
+    <glyph glyph-name="T" unicode="T" horiz-adv-x="1195" 
+d="M1261 1298h-453l-225 -1298h-187l225 1298h-453l28 158h1093z" />
+    <hkern u1="R" u2="T" k="80" />
+    <hkern g1="O"
+	g2="T"
+	k="27" />
+    <hkern g1="T"
+	g2="O"
+	k="28" />
+    <hkern g1="T"
+	g2="T"
+	k="-16" />
+    <hkern g1="B"
+	g2="T"
+	k="27" />
+  </font>
+</defs></svg>

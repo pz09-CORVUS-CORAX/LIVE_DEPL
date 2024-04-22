@@ -1,0 +1,174 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+<metadata>
+Created by FontForge 20230101 at Wed Nov 07 16:39:53 2012
+ By Ligowy gość
+Copyright (c) 2011, 2012 Linotype Corp. All rights reserved. This font software may not be reproduced, modified, disclosed or transferred without the express written approval of Linotype Corp.
+</metadata>
+<defs>
+<font id="HelveticaNeue-Bold" horiz-adv-x="0" >
+  <font-face 
+    font-family="HelveticaNeue-Bold"
+    font-weight="700"
+    font-stretch="normal"
+    units-per-em="2048"
+    panose-1="2 11 8 4 2 2 2 2 2 4"
+    ascent="1462"
+    descent="-586"
+    cap-height="1462"
+    bbox="-16 -35 1440 1497"
+    underline-thickness="102"
+    underline-position="-205"
+    unicode-range="U+0041-0056"
+  />
+<missing-glyph horiz-adv-x="1049" 
+d="M1049 1470v-1470h-1049v1470h1049zM946 102v1264h-844v-1264h844zM530 1247q110 0 182 -74t72 -194q0 -82 -33 -135.5t-98 -112.5q-67 -60 -82.5 -94.5t-15.5 -157.5h-94l-4 40q0 63 8.5 110t47 97.5t72.5 81.5t64.5 70.5t30.5 92.5q0 72 -46.5 123t-109.5 51
+q-67 0 -111.5 -48t-56.5 -146l-102 16q14 137 85.5 208.5t190.5 71.5zM455 377h114v-137h-114v137z" />
+    <glyph glyph-name=".notdef" horiz-adv-x="1049" 
+d="M1049 1470v-1470h-1049v1470h1049zM946 102v1264h-844v-1264h844zM530 1247q110 0 182 -74t72 -194q0 -82 -33 -135.5t-98 -112.5q-67 -60 -82.5 -94.5t-15.5 -157.5h-94l-4 40q0 63 8.5 110t47 97.5t72.5 81.5t64.5 70.5t30.5 92.5q0 72 -46.5 123t-109.5 51
+q-67 0 -111.5 -48t-56.5 -146l-102 16q14 137 85.5 208.5t190.5 71.5zM455 377h114v-137h-114v137z" />
+    <glyph glyph-name="glyph1" 
+ />
+    <glyph glyph-name="glyph2" 
+ />
+    <glyph glyph-name="glyph3" 
+ />
+    <glyph glyph-name="glyph4" 
+ />
+    <glyph glyph-name="glyph5" 
+ />
+    <glyph glyph-name="glyph6" 
+ />
+    <glyph glyph-name="glyph7" 
+ />
+    <glyph glyph-name="glyph8" 
+ />
+    <glyph glyph-name="glyph9" 
+ />
+    <glyph glyph-name="glyph10" 
+ />
+    <glyph glyph-name="glyph11" 
+ />
+    <glyph glyph-name="glyph12" 
+ />
+    <glyph glyph-name="glyph13" 
+ />
+    <glyph glyph-name="glyph14" 
+ />
+    <glyph glyph-name="glyph15" 
+ />
+    <glyph glyph-name="glyph16" 
+ />
+    <glyph glyph-name="glyph17" 
+ />
+    <glyph glyph-name="glyph18" 
+ />
+    <glyph glyph-name="glyph19" 
+ />
+    <glyph glyph-name="glyph20" 
+ />
+    <glyph glyph-name="glyph21" 
+ />
+    <glyph glyph-name="glyph22" 
+ />
+    <glyph glyph-name="glyph23" 
+ />
+    <glyph glyph-name="glyph24" 
+ />
+    <glyph glyph-name="glyph25" 
+ />
+    <glyph glyph-name="glyph26" 
+ />
+    <glyph glyph-name="glyph27" 
+ />
+    <glyph glyph-name="glyph28" 
+ />
+    <glyph glyph-name="glyph29" 
+ />
+    <glyph glyph-name="glyph30" 
+ />
+    <glyph glyph-name="glyph31" 
+ />
+    <glyph glyph-name="glyph32" 
+ />
+    <glyph glyph-name="glyph33" 
+ />
+    <glyph glyph-name="glyph34" 
+ />
+    <glyph glyph-name="glyph35" 
+ />
+    <glyph glyph-name="A" unicode="A" horiz-adv-x="1403" 
+d="M870 1462l547 -1461h-334l-110 325h-547l-115 -326h-325l555 1462h329zM700 1102l-190 -537h379l-184 537h-5z" />
+    <glyph glyph-name="glyph37" 
+ />
+    <glyph glyph-name="C" unicode="C" horiz-adv-x="1518" 
+d="M797 1497q249 0 424.5 -140.5t205.5 -385.5h-311q-21 115 -114 185.5t-206 70.5q-188 0 -292.5 -137.5t-104.5 -364.5q0 -217 103.5 -353t294.5 -136q139 0 225 85.5t106 241.5h312q-28 -279 -202.5 -438.5t-440.5 -159.5q-211 0 -375.5 96.5t-254 272.5t-89.5 391
+q0 337 197 554.5t522 217.5z" />
+    <glyph glyph-name="glyph39" 
+ />
+    <glyph glyph-name="E" unicode="E" horiz-adv-x="1327" 
+d="M1235 1462v-270h-772v-313h708v-250h-708v-359h788v-270h-1110v1462h1094z" />
+    <glyph glyph-name="glyph41" 
+ />
+    <glyph glyph-name="glyph42" 
+ />
+    <glyph glyph-name="H" unicode="H" horiz-adv-x="1518" 
+d="M463 1462v-561h592v561h321v-1462h-321v631h-592v-631h-322v1462h322z" />
+    <glyph glyph-name="I" unicode="I" horiz-adv-x="604" 
+d="M463 1462v-1462h-322v1462h322z" />
+    <glyph glyph-name="glyph45" 
+ />
+    <glyph glyph-name="glyph46" 
+ />
+    <glyph glyph-name="L" unicode="L" horiz-adv-x="1214" 
+d="M463 1462v-1192h713v-270h-1035v1462h322z" />
+    <glyph glyph-name="glyph48" 
+ />
+    <glyph glyph-name="glyph49" 
+ />
+    <glyph glyph-name="glyph50" 
+ />
+    <glyph glyph-name="glyph51" 
+ />
+    <glyph glyph-name="glyph52" 
+ />
+    <glyph glyph-name="glyph53" 
+ />
+    <glyph glyph-name="glyph54" 
+ />
+    <glyph glyph-name="T" unicode="T" horiz-adv-x="1251" 
+d="M1225 1462v-270h-439v-1192h-321v1192h-438v270h1198z" />
+    <glyph glyph-name="glyph56" 
+ />
+    <glyph glyph-name="V" unicode="V" horiz-adv-x="1290" 
+d="M315 1462l326 -1028h4l330 1028h332l-486 -1462h-362l-475 1462h331z" />
+    <hkern u1="A" u2="V" k="74" />
+    <hkern u1="L" u2="V" k="172" />
+    <hkern u1="V" u2="A" k="74" />
+    <hkern g1="A"
+	g2="C"
+	k="37" />
+    <hkern g1="A"
+	g2="T"
+	k="184" />
+    <hkern g1="C"
+	g2="T"
+	k="49" />
+    <hkern g1="C"
+	g2="A"
+	k="37" />
+    <hkern g1="L"
+	g2="C"
+	k="86" />
+    <hkern g1="L"
+	g2="T"
+	k="258" />
+    <hkern g1="T"
+	g2="C"
+	k="61" />
+    <hkern g1="T"
+	g2="A"
+	k="184" />
+  </font>
+</defs></svg>
