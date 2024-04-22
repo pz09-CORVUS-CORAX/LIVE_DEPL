@@ -35,9 +35,9 @@ jobs:
         
         #run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
 
+        # if : github.ref == 'refs/heads/main'
   deploy:
     #TODO add tests?
-    if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     steps:
