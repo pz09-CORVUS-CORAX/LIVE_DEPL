@@ -163,7 +163,14 @@ def convert_pdf():
             with open(temp_svg_file.name, 'r') as f:
                 svg_content = f.read()
 
-            return svg_content, 200, {'Content-Type': 'image/svg+xml', 'Content-Disposition': 'attachment; filename=converted.svg'}  
+            #Font extraction/Zespol
+            subprocess.check_call(['python', '/font_extractor/font_extractor/font_extractor.py', temp_svg_file.name])
+            # do sth.
+            return svg_content, 200, {
+                'Content-Type': 'image/svg+xml',
+                'Content-Disposition': 'attachment; filename=converted.svg' }
+
+            # return svg_content, 200, {'Content-Type': 'image/svg+xml', 'Content-Disposition': 'attachment; filename=converted.svg'}  
     except subprocess.CalledProcessError as e:
         logging.error("Failed to convert PDF to SVG: %s", e)
         return jsonify({"error": "Failed to convert PDF to SVG"}), 500
