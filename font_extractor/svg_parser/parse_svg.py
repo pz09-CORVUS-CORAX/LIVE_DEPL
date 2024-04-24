@@ -15,6 +15,8 @@ fontsInFile = []
 
 for p in range(1, len(argv) - 1):
     inputFontPath = argv[p]
+    #log 23:36-24-04
+    print("inputfontpath test (parse-svg):", inputFontPath)
     glyphs = parseFont(inputFontPath)
     fontsInFile.append((inputFontPath, glyphs))
 

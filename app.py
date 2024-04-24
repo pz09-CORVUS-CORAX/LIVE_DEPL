@@ -148,47 +148,27 @@ def convert_pdf():
         return jsonify({"error": "File path not received in request"}), 400
     if not os.path.exists(file_path):
         return jsonify({"error": "File does not exist at the provided path"}), 400
-    
+
+    #log23:59-24-04
+    original_dir = os.getcwd()
+    print("original dir pa tera:", original_dir)
     try:
-        with tempfile.NamedTemporaryFile(suffix='.svg', delete=False, dir=custom_temp_dir) as temp_svg_file:
-            print(temp_svg_file.name)
-            print("whole file", temp_svg_file)
-            output_svg_path = temp_svg_file.name
-# new log:
-            #1.
-            subprocess.check_call([
-                'fontforge', '-script', './font_extractor/font_extractor.py', output_svg_path
-            ])
-
-            #2.
-            with open('fonts.json', 'r') as f:
-                font_data = json.load(f)
-            return jsonify(font_data), 200
-
-#old version:
-            # subprocess.check_call(['pdf2svg', file_path, output_svg_path, '1'])
-
-            # return jsonify({
-            #     "svg_path": output_svg_path
-            # })
-            # with open(temp_svg_file.name, 'r') as f:
-            #     svg_content = f.read()
-
-            #Font extraction/Zespol
-            # subprocess.check_call(['python', './font_extractor/font_extractor/font_extractor.py', temp_svg_file.name])
-            # do sth.
-            # return svg_content, 200, {
-            #     'Content-Type': 'image/svg+xml',
-            #     'Content-Disposition': 'attachment; filename=converted.svg' }
-
-            # return svg_content, 200, {'Content-Type': 'image/svg+xml', 'Content-Disposition': 'attachment; filename=converted.svg'}  
+        #1
+        print("file_path przed procesesm", file_path)
+        subprocess.check_call([
+            'fontforge', '-script', 'font_extractor/font_extractor.py', f'"{file_path}"'
+    ])
+        #2.
+        with open('fonts.json', 'r') as f:
+            font_data = json.load(f)
+        return jsonify(font_data), 200
     except subprocess.CalledProcessError as e:
         logging.error("Failed to convert PDF to SVG: %s", e)
         return jsonify({"error": "Failed to convert PDF to SVG"}), 500
     finally:
         if os.path.exists(file_path):
             os.remove(file_path)
-            os.remove(output_svg_path)
+            # os.remove(output_svg_path)
 
 cache = Cache(app)
 app.config['CACHE_TYPE'] = 'simple'
