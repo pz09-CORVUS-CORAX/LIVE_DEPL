@@ -8,6 +8,7 @@ import subprocess
 import base64
 import fitz
 import logging
+import json
 
 app = Flask(__name__)
 # cors = CORS(app, origins='*')
@@ -152,23 +153,33 @@ def convert_pdf():
         with tempfile.NamedTemporaryFile(suffix='.svg', delete=False, dir=custom_temp_dir) as temp_svg_file:
             print(temp_svg_file.name)
             print("whole file", temp_svg_file)
-
             output_svg_path = temp_svg_file.name
+# new log:
+            #1.
+            subprocess.check_call([
+                'fontforge', '-script', './font_extractor/font_extractor.py', output_svg_path
+            ])
 
-            subprocess.check_call(['pdf2svg', file_path, output_svg_path, '1'])
+            #2.
+            with open('fonts.json', 'r') as f:
+                font_data = json.load(f)
+            return jsonify(font_data), 200
+
+#old version:
+            # subprocess.check_call(['pdf2svg', file_path, output_svg_path, '1'])
 
             # return jsonify({
             #     "svg_path": output_svg_path
             # })
-            with open(temp_svg_file.name, 'r') as f:
-                svg_content = f.read()
+            # with open(temp_svg_file.name, 'r') as f:
+            #     svg_content = f.read()
 
             #Font extraction/Zespol
-            subprocess.check_call(['python', '/font_extractor/font_extractor/font_extractor.py', temp_svg_file.name])
+            # subprocess.check_call(['python', './font_extractor/font_extractor/font_extractor.py', temp_svg_file.name])
             # do sth.
-            return svg_content, 200, {
-                'Content-Type': 'image/svg+xml',
-                'Content-Disposition': 'attachment; filename=converted.svg' }
+            # return svg_content, 200, {
+            #     'Content-Type': 'image/svg+xml',
+            #     'Content-Disposition': 'attachment; filename=converted.svg' }
 
             # return svg_content, 200, {'Content-Type': 'image/svg+xml', 'Content-Disposition': 'attachment; filename=converted.svg'}  
     except subprocess.CalledProcessError as e:
