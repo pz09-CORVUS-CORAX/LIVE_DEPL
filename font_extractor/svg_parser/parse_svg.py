@@ -30,7 +30,7 @@ doc = fitz.open(fontsPath)
 page = doc[0]
 pdf_dict = page.get_text("rawdict")
 
-result = run(["node", 'svg_parser/mat-js/script.js'], input=parseFontsToJson(fontsInFile), capture_output=True, text=True)
+result = run(["node", 'font_extractor/svg_parser/mat-js/script.js'], input=parseFontsToJson(fontsInFile), capture_output=True, text=True)
 print(result.stderr.strip())
 answer=result.stdout.strip()
 file = open("fonts.json", 'w')
