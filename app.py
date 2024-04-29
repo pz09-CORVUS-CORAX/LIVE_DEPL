@@ -165,10 +165,20 @@ def convert_pdf():
     except subprocess.CalledProcessError as e:
         logging.error("Failed to convert PDF to SVG: %s", e)
         return jsonify({"error": "Failed to convert PDF to SVG"}), 500
+    
     finally:
         if os.path.exists(file_path):
             os.remove(file_path)
-            # os.remove(output_svg_path)
+        #Cleanup log28.04/19:33
+        cleanup_files = ['fonts.json', 'gcode.gcode']
+        for file_to_delete in cleanup_files:
+            if os.path.exists(file_to_delete):
+                os.remove(file_to_delete)
+        
+        for fontfilename in os.listdir():
+            if fontfilename.endswith('.svg'):
+                os.remove(fontfilename)
+
 
 cache = Cache(app)
 app.config['CACHE_TYPE'] = 'simple'
