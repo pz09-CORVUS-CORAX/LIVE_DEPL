@@ -158,10 +158,14 @@ def convert_pdf():
         subprocess.check_call([
             'fontforge', '-script', 'font_extractor/font_extractor.py', f'"{file_path}"'
     ])
-        #2.
-        with open('fonts.json', 'r') as f:
-            font_data = json.load(f)
-        return jsonify(font_data), 200
+        #2. log23:00-29.04:
+        with open('gcode.gcode', 'r') as f:
+            gcode_content = f.read()
+
+        return gcode_content, 200, {
+            'Content-Type': 'text/plain',  # Or another appropriate MIME type 
+            'Content-Disposition': 'attachment; filename=converted.gcode'
+        }
     except subprocess.CalledProcessError as e:
         logging.error("Failed to convert PDF to SVG: %s", e)
         return jsonify({"error": "Failed to convert PDF to SVG"}), 500
