@@ -142,6 +142,10 @@ def convert_pdf():
     print(request.form)  # Print form data
     # edit 19:49-16-04 + 20:30-16-04
     file_path = request.form.get('pdf_path')
+    #changelog 17:30-08-05
+    drill_angle = request.form.get('drill_angle')
+    drill_active_height = request.form.get('drill_active_height')
+    drill_movement_speed = request.form.get('drill_movement_speed')
     print(file_path)
     if not file_path:
 
@@ -155,8 +159,10 @@ def convert_pdf():
     try:
         #1
         print("file_path przed procesesm", file_path)
+        #changelog 17:30-08-05
         subprocess.check_call([
-            'fontforge', '-script', 'font_extractor/font_extractor.py', f'"{file_path}"'
+            'fontforge', '-script', 'font_extractor/font_extractor.py', f'"{file_path}"', 
+         drill_angle, drill_active_height, drill_movement_speed
     ])
         #2. log23:00-29.04:
         with open('gcode.gcode', 'r') as f:
@@ -171,7 +177,7 @@ def convert_pdf():
         return jsonify({"error": "Failed to convert PDF to SVG"}), 500
     
     finally:
-        if os.path.exists(file_path):
+        while os.path.exists(file_path):
             os.remove(file_path)
         cleanup_files = ['fonts.json', 'pdf_text.json', 'gcode.gcode']
         for file_to_delete in cleanup_files:

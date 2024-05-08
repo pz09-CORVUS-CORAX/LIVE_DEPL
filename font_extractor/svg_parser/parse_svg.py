@@ -14,12 +14,15 @@ def pdf_unit_to_mm(pdf_unit: float) -> float:
 
 fontsInFile = []
 
-for p in range(1, len(argv) - 1):
+for p in range(1, len(argv) - 4):
     inputFontPath = argv[p]
     glyphs = parseFont(inputFontPath)
     fontsInFile.append((inputFontPath, glyphs))
 
-fontsPath = argv[len(argv) - 1]
+fontsPath = argv[len(argv) - 4]
+drillAngle = float(argv[len(argv) - 3])
+drillActiveHeight = float(argv[len(argv) - 2])
+drillMovementSpeed = float(argv[len(argv) - 1])
 
 file = open("fonts.json", 'w')
 file.write(parseFontsToJson(fontsInFile)) # To trzeba wysłać do JSa
@@ -76,12 +79,12 @@ for b in pdf_dict['blocks']:
                 circles = fonts_glyphs[block_index][i][1]
                 scale_factor = glyph.scale_and_move_to_bbox(c['bbox'][0], c['bbox'][1], c['bbox'][2], c['bbox'][3], original_glyph)
                 glyph.transform(-30, -50)
-                glyph.scale(0.5, 0.5)
+                glyph.scale(0.03937007874, 0.03937007874) #Inches to mm conversion
                 radiuses = []
                 for circle in circles:
                     radiuses.append(circle['radius'] * scale_factor) 
                     
-                file.write(Gcode.lines_to_Gcode_with_radius(glyph.lines, radiuses, 90, 5, 30))
+                file.write(Gcode.lines_to_Gcode_with_radius(glyph.lines, radiuses, drillAngle, drillActiveHeight, drillMovementSpeed))
                 break
 
 
