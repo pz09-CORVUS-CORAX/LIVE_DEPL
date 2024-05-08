@@ -26,5 +26,5 @@ fonts_string = fonts_string + ".svg " + argv[1]
 #log 23:32-24-04
 print("test fontS_string", fonts_string)
 
-os.system("python font_extractor/svg_parser/parse_svg.py " + fonts_string)
+os.system("python3 font_extractor/svg_parser/parse_svg.py " + fonts_string)
     

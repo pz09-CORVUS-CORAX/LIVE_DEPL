@@ -1,5 +1,4 @@
-from copy import deepcopy
-from fontparser import parseFont, parseFontsToJson, parseJsonFontMat
+from parser import parseFont, parseFontsToJson, parseJsonFontMat
 from sys import argv
 from subprocess import run
 import fitz
@@ -16,6 +15,8 @@ fontsInFile = []
 
 for p in range(1, len(argv) - 1):
     inputFontPath = argv[p]
+    #log 23:36-24-04
+    print("inputfontpath test (parse-svg):", inputFontPath)
     glyphs = parseFont(inputFontPath)
     fontsInFile.append((inputFontPath, glyphs))
 
@@ -29,22 +30,11 @@ doc = fitz.open(fontsPath)
 page = doc[0]
 pdf_dict = page.get_text("rawdict")
 
-# Printing bounding boxes
-# doc = fitz.open('test_2.pdf')
-doc = fitz.open(fontsPath)
-page_2 = doc[0]
-page_2.clean_contents()
-        
-
-result = run(["node", 'font_extractor/svg_parser/mat-js/script.js'], input=parseFontsToJson(fontsInFile), capture_output=True, text=True, encoding='utf-8')
+result = run(["node", 'font_extractor/svg_parser/mat-js/script.js'], input=parseFontsToJson(fontsInFile), capture_output=True, text=True)
 print(result.stderr.strip())
 answer=result.stdout.strip()
 file = open("fonts.json", 'w')
 file.write(answer) 
-file.close()
-
-file = open('pdf_text.json', 'w')
-file.write(json.dumps(pdf_dict))
 file.close()
 
 fonts = json.loads(answer)
@@ -53,8 +43,6 @@ fonts = fonts['fonts']
 fonts_glyphs = []
 for font in fonts:
     fonts_glyphs.append(parseJsonFontMat(font))
-
-
 
 file = open("gcode.gcode", 'w')
 output: str = 'G21\n'
@@ -66,24 +54,26 @@ block_index = -1
 for b in pdf_dict['blocks']:
     block_index += 1
     for c in b['lines'][0]['spans'][0]['chars']:
-        size = b['lines'][0]['spans'][0]['size']
-        ascender = b['lines'][0]['spans'][0]['ascender']
-        descender = b['lines'][0]['spans'][0]['descender']
-        for i in range(len(fonts_glyphs[block_index])):           
+        for i in range(len(fonts_glyphs[0])):
+            if len(fonts_glyphs[block_index][i][0].unicode) > 1:
+                print(fonts_glyphs[block_index][i][0].unicode, " ", i, " ", block_index)
             if ord(fonts_glyphs[block_index][i][0].unicode) == ord(c['c']):
-                glyph = deepcopy(fonts_glyphs[block_index][i][0])
-                original_glyph = fontsInFile[block_index][1][i]
+                glyph = fonts_glyphs[block_index][i][0]
                 circles = fonts_glyphs[block_index][i][1]
-                scale_factor = glyph.scale_and_move_to_bbox(c['bbox'][0], c['bbox'][1], c['bbox'][2], c['bbox'][3], original_glyph)
-                glyph.transform(-30, -50)
-                glyph.scale(0.5, 0.5)
+                glyph.scale_and_move_to_bbox(c['bbox'][0], c['bbox'][1], c['bbox'][2], c['bbox'][3])
+                glyph.transform(-70, -70)
+                glyph.scale(0.1, 0.1)
                 radiuses = []
+                max_radius = 0
                 for circle in circles:
-                    radiuses.append(circle['radius'] * scale_factor) 
+                    if circle['radius'] > max_radius:
+                        max_radius = circle['radius']
+                scale_factor = 2.5 / max_radius
+                for circle in circles:
+                    radiuses.append(circle['radius'] * scale_factor)
                     
-                file.write(Gcode.lines_to_Gcode_with_radius(glyph.lines, radiuses, 90, 5, 30))
+                file.write(Gcode.lines_to_Gcode_with_radius(glyph.lines, radiuses, 90, 5, 0, 30))
                 break
-
 
 file.write('G0 Z10\n')
 file.write('M5\n')

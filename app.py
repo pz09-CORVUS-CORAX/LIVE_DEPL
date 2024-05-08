@@ -173,11 +173,10 @@ def convert_pdf():
     finally:
         if os.path.exists(file_path):
             os.remove(file_path)
-        #Cleanup log28.04/19:33
-        cleanup_files = ['fonts.json', 'gcode.gcode']
+        cleanup_files = ['fonts.json', 'pdf_text.json', 'gcode.gcode']
         for file_to_delete in cleanup_files:
             if os.path.exists(file_to_delete):
-                os.remove(file_to_delete)
+                os.remove(file_to_delete) 
         
         for fontfilename in os.listdir():
             if fontfilename.endswith('.svg'):
