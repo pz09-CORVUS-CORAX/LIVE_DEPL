@@ -1,7 +1,8 @@
 from flask import Flask, Blueprint, render_template_string, render_template, send_file, request, current_app, jsonify, redirect, session
-from utils import allowed_file, is_pdf_size_valid
+from utils import allowed_file, is_pdf_size_valid, cleanup_temp_pdfs
 from flask_caching import Cache
 from flask_cors import CORS, cross_origin
+from apscheduler.schedulers.background import BackgroundScheduler
 import tempfile
 import os
 import subprocess
@@ -9,6 +10,7 @@ import base64
 import fitz
 import logging
 import json
+
 
 app = Flask(__name__)
 # cors = CORS(app, origins='*')
@@ -194,6 +196,11 @@ app.config['CACHE_TYPE'] = 'simple'
 app.config['CACHE_DEFAULT_TIMEOUT'] = 3600
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.register_blueprint(pdf_blueprint, url_prefix='/pdf')
+#changelog'13-05/2024
+scheduler = BackgroundScheduler()
+scheduler.add_job(cleanup_temp_pdfs, 'interval', minutes=30)
+scheduler.start()
+
 
 if __name__ == '__main__':
     app.run(debug=True) 
