@@ -78,8 +78,10 @@ def upload_pdf():
         # 22:48-11-04
         # os.remove(pdf_path)
         # new edit 09:58-11-04
+        os.remove(pdf_path)
         return jsonify({"pdf_path": pdf_path})
     except Exception as e:
+        os.remove(pdf_path)
         logging.exception("Error during upload:", e)
         return jsonify({"error": "Internal server error"}), 500
         
