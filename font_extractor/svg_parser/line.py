@@ -101,10 +101,16 @@ class Line:
             self.points.append(0)
         elif self.ltype == 'T' or self.ltype == 't':
             self.ltype = 'Q'
-            lcp_lp_vec_x = 2*self.last_point[0] - self.last_control_point[0]
-            lcp_lp_vec_y = 2*self.last_point[1] - self.last_control_point[1]
-            control_point_x = lcp_lp_vec_x
-            control_point_y = lcp_lp_vec_y
+            control_point_x = 0
+            control_point_x = 0
+            if len(self.last_control_point) < 2:
+                control_point_x = self.last_point[0]
+                control_point_y = self.last_point[1]
+            else:
+                lcp_lp_vec_x = 2*self.last_point[0] - self.last_control_point[0]
+                lcp_lp_vec_y = 2*self.last_point[1] - self.last_control_point[1]
+                control_point_x = lcp_lp_vec_x
+                control_point_y = lcp_lp_vec_y
             self.points.insert(0, control_point_y)
             self.points.insert(0, control_point_x)
             self.points[2] += self.last_point[0]

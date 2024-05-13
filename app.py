@@ -80,6 +80,7 @@ def upload_pdf():
         # new edit 09:58-11-04
         return jsonify({"pdf_path": pdf_path})
     except Exception as e:
+        os.remove(pdf_path)
         logging.exception("Error during upload:", e)
         return jsonify({"error": "Internal server error"}), 500
         
@@ -142,9 +143,12 @@ def convert_pdf():
     print(request.form)  # Print form data
     # edit 19:49-16-04 + 20:30-16-04
     file_path = request.form.get('pdf_path')
-    print(file_path)
+    #changelog 17:30-08-05
+    drill_angle = request.form.get('drill_angle')
+    drill_active_height = request.form.get('drill_active_height')
+    drill_movement_speed = request.form.get('drill_movement_speed')
+    print("filepath tu print", file_path)
     if not file_path:
-
         return jsonify({"error": "File path not received in request"}), 400
     if not os.path.exists(file_path):
         return jsonify({"error": "File does not exist at the provided path"}), 400
@@ -155,8 +159,10 @@ def convert_pdf():
     try:
         #1
         print("file_path przed procesesm", file_path)
+        #changelog 17:30-08-05
         subprocess.check_call([
-            'fontforge', '-script', 'font_extractor/font_extractor.py', f'"{file_path}"'
+            'fontforge', '-script', 'font_extractor/font_extractor.py', f'"{file_path}"', 
+         drill_angle, drill_active_height, drill_movement_speed
     ])
         #2. log23:00-29.04:
         with open('gcode.gcode', 'r') as f:
@@ -173,11 +179,10 @@ def convert_pdf():
     finally:
         if os.path.exists(file_path):
             os.remove(file_path)
-        #Cleanup log28.04/19:33
-        cleanup_files = ['fonts.json', 'gcode.gcode']
+        cleanup_files = ['fonts.json', 'pdf_text.json', 'gcode.gcode']
         for file_to_delete in cleanup_files:
             if os.path.exists(file_to_delete):
-                os.remove(file_to_delete)
+                os.remove(file_to_delete) 
         
         for fontfilename in os.listdir():
             if fontfilename.endswith('.svg'):

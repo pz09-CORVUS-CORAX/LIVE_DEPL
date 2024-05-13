@@ -1,5 +1,7 @@
 from math import ceil, sqrt, tan
 from queue import Queue
+
+from numpy import deg2rad
 from line import Line
 
 class Gcode:
@@ -91,29 +93,24 @@ class Gcode:
             last_line = line
         return output
     
-    def lines_to_Gcode_with_radius(lines, radiuses, millAngle, millHeight, maxMaterialHeight, millTravelSpeed, accuracy: float = 0.1):
+    def lines_to_Gcode_with_radius(lines, radiuses, millAngle, millHeight, millTravelSpeed, accuracy: float = 0.1):
         output = ''
         non_milling_travel_speed = 100
+        millHeight *= 0.95
+
+        max_radius = max(radiuses)
+        max_height = heightForRadius(max_radius, millAngle)
 
         last_height = 0
         height = 0
-        last_mill_radius = 0
-        last_point = [0, 0]
-
-        left_paths: list[str] = []
-        right_paths: list[str] = []
-
-        is_last_M = False
         i = 0
         for line in lines:
             if line.ltype == 'Z':
                 i -= 1
             height = heightForRadius(radiuses[i], millAngle)
-            # if height > 0.9*millHeight:
-            #     height = 0.9*millHeight
-            millRadius = tan(millAngle/2) * height
-            # passage_times = ceil(radiuses[i]/millRadius)
-            passage_times = 1
+            if max_height > millHeight:
+                height = millHeight * (height / max_height)
+
             if line.ltype == 'M':
                 output += 'G0 X'
                 output += str(line.points[0])
@@ -121,7 +118,6 @@ class Gcode:
                 output += str(line.points[1])
                 output += ' Z5'
                 output += ' F' + str(non_milling_travel_speed) + '\n'
-                # Oblicz głębokość jeżeli radius > od frezu to zakolejkuj wyrównywanie jeżeli wysokość ostateczna > max materiału to exception
                 output += 'G1 Z' + str(-height)
                 output += ' F' + str(millTravelSpeed) + '\n'
             elif line.ltype == 'Q':
@@ -160,136 +156,9 @@ class Gcode:
                 output += 'G0 Z5 F' + str(non_milling_travel_speed) + '\n'
                 height = 0
 
-            for passage in range(passage_times - 1):
-                left_paths.append('')
-                right_paths.append('')
-            
-            for passage in range(passage_times - 1):
-                # last_drilled_radius = (passage + 1) * last_mill_radius
-                # drilled_radius = (passage + 1) * millRadius
-                last_drilled_radius = 1
-                drilled_radius = 1
-                #Policzyc height i radius
-                if line.ltype == 'M':
-                    is_last_M = True
-                elif line.ltype == 'Q':
-                    right_v = normal_right(last_point[0], last_point[1], line.points[2], line.points[3])
-                    if is_last_M:
-                        is_last_M = False
-                        #G0 na ostatni punkt
-                        right_paths[passage] += 'G0 X'
-                        right_paths[passage] += str(last_point[0] + (right_v[0] * last_drilled_radius))
-                        right_paths[passage] += ' Y'
-                        right_paths[passage] += str(last_point[1] + (right_v[1] * last_drilled_radius))
-                        right_paths[passage] += ' Z0'
-                        right_paths[passage] += ' F' + str(millTravelSpeed) + '\n'
-                        # Oblicz głębokość jeżeli radius > od frezu to zakolejkuj wyrównywanie jeżeli wysokość ostateczna > max materiału to exception
-                        right_paths[passage] += 'G1 Z' + str(-last_height)
-                        right_paths[passage] += ' F' + str(millTravelSpeed) + '\n'
-                        
-                        left_paths[passage] += 'G0 X'
-                        left_paths[passage] += str(last_point[0] - (right_v[0] * last_drilled_radius))
-                        left_paths[passage] += ' Y'
-                        left_paths[passage] += str(last_point[1] - (right_v[1] * last_drilled_radius))
-                        left_paths[passage] += ' Z0'
-                        left_paths[passage] += ' F' + str(millTravelSpeed) + '\n'
-                        # Oblicz głębokość jeżeli radius > od frezu to zakolejkuj wyrównywanie jeżeli wysokość ostateczna > max materiału to exception
-                        right_paths[passage] += 'G1 Z' + str(-last_height)
-                        right_paths[passage] += ' F' + str(millTravelSpeed) + '\n'
-                    
-                    step = accuracy
-                    t = step
-                    while t <= 1-step:
-                        current_r = (1 - t) * last_drilled_radius + t * drilled_radius
-                        current_h = (1 - t) * last_height + t * height #lerp
-                        bezier = _bezier(line.last_point[0], line.last_point[1], line.points[0], line.points[1], line.points[2], line.points[3], t)
-                        right_paths[passage] += 'G1 X'
-                        right_paths[passage] += str(bezier[0] + (right_v[0] * current_r))
-                        right_paths[passage] += ' Y'
-                        right_paths[passage] += str(bezier[1] + (right_v[1] * current_r))
-                        right_paths[passage] += ' Z'
-                        right_paths[passage] += str(-current_h)
-                        right_paths[passage] += '\n'
-
-                        left_paths[passage] += 'G1 X'
-                        left_paths[passage] += str(bezier[0] - (right_v[0] * current_r))
-                        left_paths[passage] += ' Y'
-                        left_paths[passage] += str(bezier[1] - (right_v[1] * current_r))
-                        left_paths[passage] += ' Z'
-                        left_paths[passage] += str(-current_h)
-                        left_paths[passage] += '\n'
-                        t += step
-
-                    bezier = _bezier(line.last_point[0], line.last_point[1], line.points[0], line.points[1], line.points[2], line.points[3], 1)
-                    right_paths[passage] += 'G1 X'
-                    right_paths[passage] += str(bezier[0] + (right_v[0] * radiuses[i] * (passage + 1)))
-                    right_paths[passage] += ' Y'
-                    right_paths[passage] += str(bezier[1] + (right_v[1] * radiuses[i] * (passage + 1)))
-                    right_paths[passage] += ' Z'
-                    right_paths[passage] += str(-height)
-                    right_paths[passage] += '\n'
-
-                    left_paths[passage] += 'G1 X'
-                    left_paths[passage] += str(bezier[0] - (right_v[0] * radiuses[i] * (passage + 1)))
-                    left_paths[passage] += ' Y'
-                    left_paths[passage] += str(bezier[1] - (right_v[1] * radiuses[i] * (passage + 1)))
-                    left_paths[passage] += ' Z'
-                    left_paths[passage] += str(-height)
-                    left_paths[passage] += '\n'
-
-                elif line.ltype == 'L':
-                    right_v = normal_right(last_point[0], last_point[1], line.points[0], line.points[1])
-                    if is_last_M:
-                        is_last_M = False
-                        #G0 na ostatni punkt
-                        right_paths[passage] += 'G0 X'
-                        right_paths[passage] += str(last_point[0] + (right_v[0] * radiuses[i-1] * (passage + 1)))
-                        right_paths[passage] += ' Y'
-                        right_paths[passage] += str(last_point[1] + (right_v[1] * radiuses[i-1] * (passage + 1)))
-                        right_paths[passage] += ' Z0'
-                        right_paths[passage] += ' F' + str(millTravelSpeed) + '\n'
-                        # Oblicz głębokość jeżeli radius > od frezu to zakolejkuj wyrównywanie jeżeli wysokość ostateczna > max materiału to exception
-                        right_paths[passage] += 'G1 Z' + str(-last_height)
-                        right_paths[passage] += ' F' + str(millTravelSpeed) + '\n'
-                        
-                        left_paths[passage] += 'G0 X'
-                        left_paths[passage] += str(last_point[0] - (right_v[0] * radiuses[i-1] * (passage + 1)))
-                        left_paths[passage] += ' Y'
-                        left_paths[passage] += str(last_point[1] - (right_v[1] * radiuses[i-1] * (passage + 1)))
-                        left_paths[passage] += ' Z0'
-                        left_paths[passage] += ' F' + str(millTravelSpeed) + '\n'
-                        # Oblicz głębokość jeżeli radius > od frezu to zakolejkuj wyrównywanie jeżeli wysokość ostateczna > max materiału to exception
-                        right_paths[passage] += 'G1 Z' + str(-last_height)
-                        right_paths[passage] += ' F' + str(millTravelSpeed) + '\n'
-
-                    right_paths[passage] += 'G1 X'
-                    right_paths[passage] += str(line.points[0] + (right_v[0] * radiuses[i] * (passage + 1)))
-                    right_paths[passage] += ' Y'
-                    right_paths[passage] += str(line.points[1] + (right_v[1] * radiuses[i] * (passage + 1)))
-                    right_paths[passage] += ' Z'
-                    right_paths[passage] += str(-height)
-                    right_paths[passage] += '\n'
-
-                    left_paths[passage] += 'G1 X'
-                    left_paths[passage] += str(line.points[0] - (right_v[0] * radiuses[i] * (passage + 1)))
-                    left_paths[passage] += ' Y'
-                    left_paths[passage] += str(line.points[1] - (right_v[1] * radiuses[i] * (passage + 1)))
-                    left_paths[passage] += ' Z'
-                    left_paths[passage] += str(-height)
-                    left_paths[passage] += '\n'                    
-                elif line.ltype == 'Z':
-                    output += 'G0 Z0 F' + str(millTravelSpeed) + '\n'
-                    height = 0
-
             i += 1
-            last_mill_radius = millRadius
             last_height = height
-            last_point = line.points[len(line.points) - 2: len(line.points)]
 
-        for path in left_paths:
-            output += path
-        for path in right_paths:    
-            output += path
         return output
 
 
@@ -313,6 +182,8 @@ def normal_right(x0, y0, x1, y1):
 def heightForRadius(radius: float, angle: float):
     if angle >= 180 or angle <= 0:
         return 0
+    
+    angle = deg2rad(angle)
     
     mill_tan = tan(angle/2)
     return radius/mill_tan
