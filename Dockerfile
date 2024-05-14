@@ -7,6 +7,9 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
+# Instalation of port forwarder.
+RUN apt-get update && apt-get install -y gunicorn
+
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -14,6 +17,18 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN apt-get update && apt-get install -y pdf2svg
 # TODO: Implement font-forge for instalation
 RUN apt-get update && apt-get install -y fontforge
+
+
+# Install Node.js and npm
+RUN apt-get update && apt-get install -y curl && \
+    curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs
+# Change to the specific directory
+WORKDIR /app/font_extractor/svg_parser/mat_js
+#Install project-specific Node.js dependencies;
+RUN npm install
+#Set the working directory back to the main project directory
+WORKDIR /app
 
 # Make port 5000 available to the world outside this container | $PORT
 EXPOSE $PORT

@@ -1,0 +1,52 @@
+name: Flask CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "Feature/Pdf-as-svg", "Feature/PDFValidation", "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python 3.12.2
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.12.2
+
+    - name: Set image tag in environment file
+      run: echo "IMAGE_TAG=baszarinhi9816/corvuscoraxtest:latest" >> $GITHUB_ENV  
+    
+    - name: Build and Push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: ./Dockerfile
+        push: false
+        tags: ${{ env.IMAGE_TAG }}
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        
+        #run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+        # if : github.ref == 'refs/heads/main'
+  deploy:
+    #TODO add tests?
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build, Push and Release a Docker container to Heroku
+        uses: gonuit/heroku-docker-deploy@v1.3.3
+        with:
+          email: ${{ secrets.HEROKU_EMAIL }}
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
