@@ -1,3 +1,4 @@
+from calendar import c
 from drawer import Drawer
 from line import Line
 from numpy import array, cross, dot
@@ -5,9 +6,10 @@ from bezier_tools import Bezier
 from numpy.linalg import norm
 
 class Glyph:
-    def __init__(self, unicode: str, svg_path: str):
+    def __init__(self, unicode: str, svg_path: str, horiz_adv_x: float = None):
         self.unicode = unicode
         self.svg_path = svg_path
+        self.horiz_adv_x = horiz_adv_x
         self.lines: list[Line] = []
         self.__parse_svg_path()
         self.__process_lines()
@@ -86,8 +88,7 @@ class Glyph:
     def svg_code(self) -> str:
         output = ""
         for line in self.lines:
-            output += line.svg_line() + '\n'
-        output.removesuffix('\n')
+            output += line.svg_line() + ' '
         return output
 
     def transform(self, x: float, y: float):
@@ -105,6 +106,26 @@ class Glyph:
             line.print_line()
         print(self.svg_code())
         print()
+
+    def glyph_bbox(self) -> list[float]:
+        x0 = self.lines[0].points[0]
+        x1 = self.lines[0].points[0]
+        y0 = self.lines[0].points[1]
+        y1 = self.lines[0].points[1]
+        for line in self.lines:
+            for i in range(0, len(line.points), 2):
+                x = line.points[i]
+                y = line.points[i + 1]
+                if x < x0:
+                    x0 = x
+                if x > x1:
+                    x1 = x
+                if y < y0:
+                    y0 = y
+                if y > y1:
+                    y1 = y
+        return [0, y0, self.horiz_adv_x, y1]
+
 
     def print_glyph_point_notation(self, accuracy: float = 0.1):
         glyph_str = ''
@@ -192,8 +213,20 @@ class Glyph:
 
             cross_p = cross(first_tangent, second_tangent)
             angle = cross_p[2]
-            print(cross_p)
-            if(angle > 0.5):
+            if(angle > 0.1):
                 sharp_corners.append(line.last_point)
             
         return sharp_corners
+    
+    def scale_and_move_to_bbox(self, x0: float, y0: float, x1: float, y1: float, original_glyph):
+        current_bbox = original_glyph.glyph_bbox()
+        current_width = original_glyph.horiz_adv_x
+        current_height = current_bbox[3] - current_bbox[1]
+        width = x1 - x0
+        height = y1 - y0
+        scale_factor_w = width / current_width
+        self.scale(scale_factor_w, scale_factor_w)
+        transform_x = x0
+        transform_y = y0 # - current_bbox[1]
+        self.transform(transform_x, -transform_y)
+        return scale_factor_w

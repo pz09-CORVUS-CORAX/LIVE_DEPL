@@ -1,3 +1,7 @@
+from math import ceil, sqrt, tan
+from queue import Queue
+
+from numpy import deg2rad
 from line import Line
 
 class Gcode:
@@ -88,8 +92,99 @@ class Gcode:
                 output += '\n'
             last_line = line
         return output
+    
+    def lines_to_Gcode_with_radius(lines, radiuses, millAngle, millHeight, millTravelSpeed, accuracy: float = 0.1):
+        output = ''
+        non_milling_travel_speed = 100
+        millHeight *= 0.95
+
+        max_radius = max(radiuses)
+        max_height = heightForRadius(max_radius, millAngle)
+
+        last_height = 0
+        height = 0
+        i = 0
+        for line in lines:
+            if line.ltype == 'Z':
+                i -= 1
+            height = heightForRadius(radiuses[i], millAngle)
+            if max_height > millHeight:
+                height = millHeight * (height / max_height)
+
+            if line.ltype == 'M':
+                output += 'G0 X'
+                output += str(line.points[0])
+                output += ' Y'
+                output += str(line.points[1])
+                output += ' Z5'
+                output += ' F' + str(non_milling_travel_speed) + '\n'
+                output += 'G1 Z' + str(-height)
+                output += ' F' + str(millTravelSpeed) + '\n'
+            elif line.ltype == 'Q':
+                step = accuracy
+                t = step
+                while t <= 1-step:
+                    current_h = (1 - t) * last_height + t * height #lerp
+                    bezier = _bezier(line.last_point[0], line.last_point[1], line.points[0], line.points[1], line.points[2], line.points[3], t)
+                    output += 'G1 X'
+                    output += str(bezier[0])
+                    output += ' Y'
+                    output += str(bezier[1])
+                    output += ' Z'
+                    output += str(-current_h)
+                    output += '\n'
+                    t += step
+
+                bezier = _bezier(line.last_point[0], line.last_point[1], line.points[0], line.points[1], line.points[2], line.points[3], 1)
+                output += 'G1 X'
+                output += str(bezier[0])
+                output += ' Y'
+                output += str(bezier[1])
+                output += ' Z'
+                output += str(-height)
+                output += '\n'
+
+            elif line.ltype == 'L':
+                output += 'G1 X'
+                output += str(line.points[0])
+                output += ' Y'
+                output += str(line.points[1])
+                output += ' Z'
+                output += str(-height)
+                output += '\n'
+            elif line.ltype == 'Z':
+                output += 'G0 Z5 F' + str(non_milling_travel_speed) + '\n'
+                height = 0
+
+            i += 1
+            last_height = height
+
+        return output
+
 
 def _bezier(x0, y0, x1, y1, x2, y2, t):
         x = ((1-t)*(1-t))*x0 + 2*(1-t)*t*x1 + t*t*x2
         y = ((1-t)*(1-t))*y0 + 2*(1-t)*t*y1 + t*t*y2
         return (x,y)
+
+def normal_right(x0, y0, x1, y1):
+    y = y1 - y0
+    x = x1 - x0
+    if x == 0 and y == 0:
+        print("Point given instead of line")
+        return (0,0)
+    tangent_len = sqrt(x*x + y*y)
+    x /= tangent_len
+    y /= tangent_len
+    return (y, -x)
+
+# angle in degrees    
+def heightForRadius(radius: float, angle: float):
+    if angle >= 180 or angle <= 0:
+        return 0
+    
+    angle = deg2rad(angle)
+    
+    mill_tan = tan(angle/2)
+    return radius/mill_tan
+    

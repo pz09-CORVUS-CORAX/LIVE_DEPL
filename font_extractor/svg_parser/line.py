@@ -32,26 +32,23 @@ class Line:
         line_str = ""
         last_point = self.last_point
         if(self.ltype == 'L'):
-            line_str += str(last_point[0]) + ';' + str(last_point[1]) + '\t'
-            line_str += str(self.points[0]) + ';' + str(self.points[1]) + '\n'
+            line_str += '{' + str(last_point[0]) + ', ' + str(last_point[1]) + '},' + '\n'
         elif self.ltype == 'Q':
                 step = accuracy
                 t = step
                 while t < 1:
                     bezier = Bezier([self.last_point, self.points[0:2], self.points[2:4]])
                     b_point = bezier.point(t)
-                    line_str += str(last_point[0]) + ';' + str(last_point[1]) + '\t'
-                    line_str += str(b_point[0]) + ';' + str(b_point[1]) + '\n'
+                    line_str += '{' + str(last_point[0]) + ', ' + str(last_point[1]) + '},' + '\n'
                     last_point = b_point
                     t += step
                 b_point = bezier.point(1)
-                line_str += str(last_point[0]) + ';' + str(last_point[1]) + '\t'
-                line_str += str(b_point[0]) + ';' + str(b_point[1]) + '\n'
+                line_str += '{' + str(last_point[0]) + ', ' + str(last_point[1]) + '},' + '\n'
         elif self.ltype == 'M':
             line_str += "M\n"
+            pass
         elif self.ltype == 'Z':
-            line_str += str(self.last_point[0]) + ';' + str(self.last_point[1]) + '\t'
-            line_str += str(self.last_M_point[0]) + ';' + str(self.last_M_point[1]) + '\n'
+            line_str += '{' + str(self.last_point[0]) + ', ' + str(self.last_point[1]) + '},' + '\n'
             line_str += "Z\n"
         return line_str
 
@@ -104,10 +101,16 @@ class Line:
             self.points.append(0)
         elif self.ltype == 'T' or self.ltype == 't':
             self.ltype = 'Q'
-            lcp_lp_vec_x = 2*self.last_point[0] - self.last_control_point[0]
-            lcp_lp_vec_y = 2*self.last_point[1] - self.last_control_point[1]
-            control_point_x = lcp_lp_vec_x
-            control_point_y = lcp_lp_vec_y
+            control_point_x = 0
+            control_point_x = 0
+            if len(self.last_control_point) < 2:
+                control_point_x = self.last_point[0]
+                control_point_y = self.last_point[1]
+            else:
+                lcp_lp_vec_x = 2*self.last_point[0] - self.last_control_point[0]
+                lcp_lp_vec_y = 2*self.last_point[1] - self.last_control_point[1]
+                control_point_x = lcp_lp_vec_x
+                control_point_y = lcp_lp_vec_y
             self.points.insert(0, control_point_y)
             self.points.insert(0, control_point_x)
             self.points[2] += self.last_point[0]

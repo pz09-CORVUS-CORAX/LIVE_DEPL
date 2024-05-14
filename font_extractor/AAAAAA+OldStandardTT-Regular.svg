@@ -1,0 +1,872 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+<metadata>
+Created by FontForge 20230101 at Tue Dec 13 11:26:42 2016
+ By Ligowy gość
+Copyright 2011 The Old Standard Project Authors (amkryukov@gmail.com)
+</metadata>
+<defs>
+<font id="OldStandardTT-Regular" horiz-adv-x="0" >
+  <font-face 
+    font-family="Old Standard TT"
+    font-weight="400"
+    font-stretch="normal"
+    units-per-em="1000"
+    panose-1="0 0 5 0 0 0 0 0 0 0"
+    ascent="762"
+    descent="-238"
+    bbox="28 -238 1044 762"
+    underline-thickness="50"
+    underline-position="-100"
+    unicode-range="U+0051-0074"
+  />
+<missing-glyph horiz-adv-x="500" 
+d="M410 762v-1000h-317v1000h317zM333 695h-165v-33h65v-37h-66v-33h166v33h-66v37h66v33zM267 566h-100v-104h166v34h-66v70zM233 532v-36h-33v36h33zM333 435h-166v-33h66v-37h-66v-33h100v70h66v33zM333 375h-33v-66h-133v-34h166v100zM333 253h-100v-56h34v23h33v-47
+h-100v80h-33v-113h166v113zM333 80h-166v-113h166v113zM300 47v-47h-100v47h100zM333 -56h-166v-33h70l-70 -47v-33h166v33h-102l70 47h32v33z" />
+    <glyph glyph-name=".notdef" horiz-adv-x="500" 
+d="M410 762v-1000h-317v1000h317zM333 695h-165v-33h65v-37h-66v-33h166v33h-66v37h66v33zM267 566h-100v-104h166v34h-66v70zM233 532v-36h-33v36h33zM333 435h-166v-33h66v-37h-66v-33h100v70h66v33zM333 375h-33v-66h-133v-34h166v100zM333 253h-100v-56h34v23h33v-47
+h-100v80h-33v-113h166v113zM333 80h-166v-113h166v113zM300 47v-47h-100v47h100zM333 -56h-166v-33h70l-70 -47v-33h166v33h-102l70 47h32v33z" />
+    <glyph glyph-name="glyph1" 
+ />
+    <glyph glyph-name="glyph2" 
+ />
+    <glyph glyph-name="glyph3" 
+ />
+    <glyph glyph-name="glyph4" 
+ />
+    <glyph glyph-name="glyph5" 
+ />
+    <glyph glyph-name="glyph6" 
+ />
+    <glyph glyph-name="glyph7" 
+ />
+    <glyph glyph-name="glyph8" 
+ />
+    <glyph glyph-name="glyph9" 
+ />
+    <glyph glyph-name="glyph10" 
+ />
+    <glyph glyph-name="glyph11" 
+ />
+    <glyph glyph-name="glyph12" 
+ />
+    <glyph glyph-name="glyph13" 
+ />
+    <glyph glyph-name="glyph14" 
+ />
+    <glyph glyph-name="glyph15" 
+ />
+    <glyph glyph-name="glyph16" 
+ />
+    <glyph glyph-name="glyph17" 
+ />
+    <glyph glyph-name="glyph18" 
+ />
+    <glyph glyph-name="glyph19" 
+ />
+    <glyph glyph-name="glyph20" 
+ />
+    <glyph glyph-name="glyph21" 
+ />
+    <glyph glyph-name="glyph22" 
+ />
+    <glyph glyph-name="glyph23" 
+ />
+    <glyph glyph-name="glyph24" 
+ />
+    <glyph glyph-name="glyph25" 
+ />
+    <glyph glyph-name="glyph26" 
+ />
+    <glyph glyph-name="glyph27" 
+ />
+    <glyph glyph-name="glyph28" 
+ />
+    <glyph glyph-name="glyph29" 
+ />
+    <glyph glyph-name="glyph30" 
+ />
+    <glyph glyph-name="glyph31" 
+ />
+    <glyph glyph-name="glyph32" 
+ />
+    <glyph glyph-name="glyph33" 
+ />
+    <glyph glyph-name="glyph34" 
+ />
+    <glyph glyph-name="glyph35" 
+ />
+    <glyph glyph-name="glyph36" 
+ />
+    <glyph glyph-name="glyph37" 
+ />
+    <glyph glyph-name="glyph38" 
+ />
+    <glyph glyph-name="glyph39" 
+ />
+    <glyph glyph-name="glyph40" 
+ />
+    <glyph glyph-name="glyph41" 
+ />
+    <glyph glyph-name="glyph42" 
+ />
+    <glyph glyph-name="glyph43" 
+ />
+    <glyph glyph-name="glyph44" 
+ />
+    <glyph glyph-name="glyph45" 
+ />
+    <glyph glyph-name="glyph46" 
+ />
+    <glyph glyph-name="glyph47" 
+ />
+    <glyph glyph-name="glyph48" 
+ />
+    <glyph glyph-name="glyph49" 
+ />
+    <glyph glyph-name="glyph50" 
+ />
+    <glyph glyph-name="glyph51" 
+ />
+    <glyph glyph-name="glyph52" 
+ />
+    <glyph glyph-name="glyph53" 
+ />
+    <glyph glyph-name="glyph54" 
+ />
+    <glyph glyph-name="glyph55" 
+ />
+    <glyph glyph-name="glyph56" 
+ />
+    <glyph glyph-name="glyph57" 
+ />
+    <glyph glyph-name="glyph58" 
+ />
+    <glyph glyph-name="glyph59" 
+ />
+    <glyph glyph-name="glyph60" 
+ />
+    <glyph glyph-name="glyph61" 
+ />
+    <glyph glyph-name="glyph62" 
+ />
+    <glyph glyph-name="glyph63" 
+ />
+    <glyph glyph-name="glyph64" 
+ />
+    <glyph glyph-name="glyph65" 
+ />
+    <glyph glyph-name="glyph66" 
+ />
+    <glyph glyph-name="glyph67" 
+ />
+    <glyph glyph-name="glyph68" 
+ />
+    <glyph glyph-name="glyph69" 
+ />
+    <glyph glyph-name="glyph70" 
+ />
+    <glyph glyph-name="glyph71" 
+ />
+    <glyph glyph-name="glyph72" 
+ />
+    <glyph glyph-name="glyph73" 
+ />
+    <glyph glyph-name="glyph74" 
+ />
+    <glyph glyph-name="glyph75" 
+ />
+    <glyph glyph-name="glyph76" 
+ />
+    <glyph glyph-name="glyph77" 
+ />
+    <glyph glyph-name="glyph78" 
+ />
+    <glyph glyph-name="glyph79" 
+ />
+    <glyph glyph-name="glyph80" 
+ />
+    <glyph glyph-name="glyph81" 
+ />
+    <glyph glyph-name="glyph82" 
+ />
+    <glyph glyph-name="glyph83" 
+ />
+    <glyph glyph-name="glyph84" 
+ />
+    <glyph glyph-name="glyph85" 
+ />
+    <glyph glyph-name="glyph86" 
+ />
+    <glyph glyph-name="glyph87" 
+ />
+    <glyph glyph-name="glyph88" 
+ />
+    <glyph glyph-name="glyph89" 
+ />
+    <glyph glyph-name="glyph90" 
+ />
+    <glyph glyph-name="glyph91" 
+ />
+    <glyph glyph-name="glyph92" 
+ />
+    <glyph glyph-name="glyph93" 
+ />
+    <glyph glyph-name="glyph94" 
+ />
+    <glyph glyph-name="glyph95" 
+ />
+    <glyph glyph-name="glyph96" 
+ />
+    <glyph glyph-name="glyph97" 
+ />
+    <glyph glyph-name="glyph98" 
+ />
+    <glyph glyph-name="glyph99" 
+ />
+    <glyph glyph-name="glyph100" 
+ />
+    <glyph glyph-name="glyph101" 
+ />
+    <glyph glyph-name="glyph102" 
+ />
+    <glyph glyph-name="glyph103" 
+ />
+    <glyph glyph-name="glyph104" 
+ />
+    <glyph glyph-name="glyph105" 
+ />
+    <glyph glyph-name="glyph106" 
+ />
+    <glyph glyph-name="glyph107" 
+ />
+    <glyph glyph-name="glyph108" 
+ />
+    <glyph glyph-name="glyph109" 
+ />
+    <glyph glyph-name="glyph110" 
+ />
+    <glyph glyph-name="glyph111" 
+ />
+    <glyph glyph-name="glyph112" 
+ />
+    <glyph glyph-name="glyph113" 
+ />
+    <glyph glyph-name="glyph114" 
+ />
+    <glyph glyph-name="glyph115" 
+ />
+    <glyph glyph-name="glyph116" 
+ />
+    <glyph glyph-name="glyph117" 
+ />
+    <glyph glyph-name="glyph118" 
+ />
+    <glyph glyph-name="glyph119" 
+ />
+    <glyph glyph-name="glyph120" 
+ />
+    <glyph glyph-name="glyph121" 
+ />
+    <glyph glyph-name="glyph122" 
+ />
+    <glyph glyph-name="glyph123" 
+ />
+    <glyph glyph-name="glyph124" 
+ />
+    <glyph glyph-name="glyph125" 
+ />
+    <glyph glyph-name="glyph126" 
+ />
+    <glyph glyph-name="glyph127" 
+ />
+    <glyph glyph-name="glyph128" 
+ />
+    <glyph glyph-name="glyph129" 
+ />
+    <glyph glyph-name="glyph130" 
+ />
+    <glyph glyph-name="glyph131" 
+ />
+    <glyph glyph-name="glyph132" 
+ />
+    <glyph glyph-name="glyph133" 
+ />
+    <glyph glyph-name="glyph134" 
+ />
+    <glyph glyph-name="glyph135" 
+ />
+    <glyph glyph-name="glyph136" 
+ />
+    <glyph glyph-name="glyph137" 
+ />
+    <glyph glyph-name="glyph138" 
+ />
+    <glyph glyph-name="glyph139" 
+ />
+    <glyph glyph-name="glyph140" 
+ />
+    <glyph glyph-name="glyph141" 
+ />
+    <glyph glyph-name="glyph142" 
+ />
+    <glyph glyph-name="glyph143" 
+ />
+    <glyph glyph-name="glyph144" 
+ />
+    <glyph glyph-name="glyph145" 
+ />
+    <glyph glyph-name="glyph146" 
+ />
+    <glyph glyph-name="glyph147" 
+ />
+    <glyph glyph-name="glyph148" 
+ />
+    <glyph glyph-name="glyph149" 
+ />
+    <glyph glyph-name="glyph150" 
+ />
+    <glyph glyph-name="glyph151" 
+ />
+    <glyph glyph-name="glyph152" 
+ />
+    <glyph glyph-name="glyph153" 
+ />
+    <glyph glyph-name="glyph154" 
+ />
+    <glyph glyph-name="glyph155" 
+ />
+    <glyph glyph-name="glyph156" 
+ />
+    <glyph glyph-name="glyph157" 
+ />
+    <glyph glyph-name="glyph158" 
+ />
+    <glyph glyph-name="glyph159" 
+ />
+    <glyph glyph-name="Q" unicode="Q" horiz-adv-x="700" 
+d="M451 -123q-24 45 -29 115q-36 -10 -62 -10q-84 0 -150.5 54t-103 141t-36.5 183q0 95 37 180.5t103 137.5t150 52t150 -52t103 -137.5t37 -180.5q0 -109 -42.5 -201t-122.5 -140q11 -52 30.5 -83.5t51.5 -31.5q38 0 51 40.5t13 105.5h19q0 -101 -23.5 -159.5t-91.5 -58.5
+q-60 0 -84 45zM265 47q-5 12 -5 28q0 42 28 69t69 27q47 0 75 -30t41 -78q38 39 54.5 113t16.5 184q0 163 -42.5 250.5t-141.5 87.5t-141.5 -87.5t-42.5 -250.5q0 -103 18 -186t70 -128zM419 25q-3 51 -16 82.5t-49 31.5q-26 0 -43 -17.5t-17 -47.5q0 -60 66 -60q32 0 59 11
+z" />
+    <glyph glyph-name="R" unicode="R" horiz-adv-x="716" 
+d="M524.5 -1q-22.5 11 -35.5 36q-27 52 -29 177q-1 67 -24 111.5t-74 44.5h-109v-309q0 -14 6 -20.5t21 -6.5h89v-32h-307v32h72q27 0 27 27v594q0 14 -6.5 20.5t-20.5 6.5h-72v32h328q97 0 159 -37t62 -123q0 -74 -55.5 -119t-133.5 -53v-4q57 -11 93.5 -52.5t48.5 -141.5
+q7 -57 12.5 -83t14 -36.5t25.5 -10.5q43 0 43 108h25q0 -65 -19 -118.5t-85 -53.5q-33 0 -55.5 11zM350 400q84 0 119.5 40.5t35.5 111.5q0 61 -32.5 94.5t-88.5 33.5h-104q-14 0 -20.5 -6.5t-6.5 -20.5v-253h97z" />
+    <glyph glyph-name="glyph162" 
+ />
+    <glyph glyph-name="glyph163" 
+ />
+    <glyph glyph-name="glyph164" 
+ />
+    <glyph glyph-name="glyph165" 
+ />
+    <glyph glyph-name="glyph166" 
+ />
+    <glyph glyph-name="glyph167" 
+ />
+    <glyph glyph-name="glyph168" 
+ />
+    <glyph glyph-name="glyph169" 
+ />
+    <glyph glyph-name="glyph170" 
+ />
+    <glyph glyph-name="glyph171" 
+ />
+    <glyph glyph-name="glyph172" 
+ />
+    <glyph glyph-name="glyph173" 
+ />
+    <glyph glyph-name="glyph174" 
+ />
+    <glyph glyph-name="glyph175" 
+ />
+    <glyph glyph-name="glyph176" 
+ />
+    <glyph glyph-name="glyph177" 
+ />
+    <glyph glyph-name="glyph178" 
+ />
+    <glyph glyph-name="glyph179" 
+ />
+    <glyph glyph-name="glyph180" 
+ />
+    <glyph glyph-name="glyph181" 
+ />
+    <glyph glyph-name="glyph182" 
+ />
+    <glyph glyph-name="glyph183" 
+ />
+    <glyph glyph-name="glyph184" 
+ />
+    <glyph glyph-name="glyph185" 
+ />
+    <glyph glyph-name="glyph186" 
+ />
+    <glyph glyph-name="glyph187" 
+ />
+    <glyph glyph-name="glyph188" 
+ />
+    <glyph glyph-name="glyph189" 
+ />
+    <glyph glyph-name="glyph190" 
+ />
+    <glyph glyph-name="glyph191" 
+ />
+    <glyph glyph-name="glyph192" 
+ />
+    <glyph glyph-name="glyph193" 
+ />
+    <glyph glyph-name="glyph194" 
+ />
+    <glyph glyph-name="glyph195" 
+ />
+    <glyph glyph-name="glyph196" 
+ />
+    <glyph glyph-name="glyph197" 
+ />
+    <glyph glyph-name="glyph198" 
+ />
+    <glyph glyph-name="glyph199" 
+ />
+    <glyph glyph-name="glyph200" 
+ />
+    <glyph glyph-name="glyph201" 
+ />
+    <glyph glyph-name="glyph202" 
+ />
+    <glyph glyph-name="glyph203" 
+ />
+    <glyph glyph-name="glyph204" 
+ />
+    <glyph glyph-name="glyph205" 
+ />
+    <glyph glyph-name="glyph206" 
+ />
+    <glyph glyph-name="glyph207" 
+ />
+    <glyph glyph-name="glyph208" 
+ />
+    <glyph glyph-name="glyph209" 
+ />
+    <glyph glyph-name="glyph210" 
+ />
+    <glyph glyph-name="glyph211" 
+ />
+    <glyph glyph-name="glyph212" 
+ />
+    <glyph glyph-name="W" unicode="W" horiz-adv-x="1068" 
+d="M159 636q-9 25 -23 34.5t-36 9.5h-62v32h296v-32h-48q-14 0 -24 -7.5t-10 -17.5q0 -8 4 -22l133 -460l121 438l-10 32q-7 20 -28 28.5t-43 8.5h-29v32h296v-32h-39q-51 0 -51 -52q0 -14 6 -31l126 -433l124 394q7 27 9.5 41.5t2.5 35.5q0 19 -17.5 32t-48.5 13h-34v32
+h270v-32h-43q-34 0 -52.5 -20t-28.5 -53l-199 -625h-25l-164 556l-158 -556h-25z" />
+    <glyph glyph-name="glyph214" 
+ />
+    <glyph glyph-name="glyph215" 
+ />
+    <glyph glyph-name="glyph216" 
+ />
+    <glyph glyph-name="glyph217" 
+ />
+    <glyph glyph-name="glyph218" 
+ />
+    <glyph glyph-name="Y" unicode="Y" horiz-adv-x="728" 
+d="M224 32h96q27 0 27 27v259l-194 318q-15 26 -27 35t-32 9h-52v32h310v-32h-60q-15 0 -25 -7t-10 -18q0 -15 5 -22l158 -267l102 196q5 7 11 28t6 33q0 24 -13.5 40.5t-41.5 16.5h-30v32h248v-32h-29q-32 0 -52 -19.5t-39 -53.5l-143 -272v-276q0 -27 27 -27h96v-32h-338
+v32z" />
+    <glyph glyph-name="glyph220" 
+ />
+    <glyph glyph-name="glyph221" 
+ />
+    <glyph glyph-name="glyph222" 
+ />
+    <glyph glyph-name="glyph223" 
+ />
+    <glyph glyph-name="glyph224" 
+ />
+    <glyph glyph-name="glyph225" 
+ />
+    <glyph glyph-name="glyph226" 
+ />
+    <glyph glyph-name="glyph227" 
+ />
+    <glyph glyph-name="glyph228" 
+ />
+    <glyph glyph-name="glyph229" 
+ />
+    <glyph glyph-name="glyph230" 
+ />
+    <glyph glyph-name="glyph231" 
+ />
+    <glyph glyph-name="glyph232" 
+ />
+    <glyph glyph-name="glyph233" 
+ />
+    <glyph glyph-name="glyph234" 
+ />
+    <glyph glyph-name="glyph235" 
+ />
+    <glyph glyph-name="glyph236" 
+ />
+    <glyph glyph-name="glyph237" 
+ />
+    <glyph glyph-name="glyph238" 
+ />
+    <glyph glyph-name="glyph239" 
+ />
+    <glyph glyph-name="glyph240" 
+ />
+    <glyph glyph-name="glyph241" 
+ />
+    <glyph glyph-name="glyph242" 
+ />
+    <glyph glyph-name="glyph243" 
+ />
+    <glyph glyph-name="glyph244" 
+ />
+    <glyph glyph-name="glyph245" 
+ />
+    <glyph glyph-name="glyph246" 
+ />
+    <glyph glyph-name="glyph247" 
+ />
+    <glyph glyph-name="glyph248" 
+ />
+    <glyph glyph-name="glyph249" 
+ />
+    <glyph glyph-name="glyph250" 
+ />
+    <glyph glyph-name="glyph251" 
+ />
+    <glyph glyph-name="glyph252" 
+ />
+    <glyph glyph-name="glyph253" 
+ />
+    <glyph glyph-name="glyph254" 
+ />
+    <glyph glyph-name="glyph255" 
+ />
+    <glyph glyph-name="glyph256" 
+ />
+    <glyph glyph-name="glyph257" 
+ />
+    <glyph glyph-name="glyph258" 
+ />
+    <glyph glyph-name="glyph259" 
+ />
+    <glyph glyph-name="glyph260" 
+ />
+    <glyph glyph-name="glyph261" 
+ />
+    <glyph glyph-name="glyph262" 
+ />
+    <glyph glyph-name="glyph263" 
+ />
+    <glyph glyph-name="glyph264" 
+ />
+    <glyph glyph-name="glyph265" 
+ />
+    <glyph glyph-name="glyph266" 
+ />
+    <glyph glyph-name="glyph267" 
+ />
+    <glyph glyph-name="glyph268" 
+ />
+    <glyph glyph-name="glyph269" 
+ />
+    <glyph glyph-name="glyph270" 
+ />
+    <glyph glyph-name="glyph271" 
+ />
+    <glyph glyph-name="glyph272" 
+ />
+    <glyph glyph-name="glyph273" 
+ />
+    <glyph glyph-name="glyph274" 
+ />
+    <glyph glyph-name="glyph275" 
+ />
+    <glyph glyph-name="glyph276" 
+ />
+    <glyph glyph-name="e" unicode="e" horiz-adv-x="460" 
+d="M104.5 51q-56.5 63 -56.5 175q0 64 25 119.5t69.5 89t99.5 33.5q61 0 100 -33t56.5 -83.5t17.5 -103.5q0 -11 -7 -14.5t-24 -3.5h-249q0 -100 28.5 -159t93.5 -59q46 0 86.5 35t51.5 109h24q-6 -73 -50.5 -120.5t-115.5 -47.5q-93 0 -149.5 63zM330 254q0 80 -21 135
+t-69 55q-51 0 -77.5 -55.5t-26.5 -134.5h194z" />
+    <glyph glyph-name="glyph278" 
+ />
+    <glyph glyph-name="glyph279" 
+ />
+    <glyph glyph-name="glyph280" 
+ />
+    <glyph glyph-name="glyph281" 
+ />
+    <glyph glyph-name="glyph282" 
+ />
+    <glyph glyph-name="glyph283" 
+ />
+    <glyph glyph-name="glyph284" 
+ />
+    <glyph glyph-name="glyph285" 
+ />
+    <glyph glyph-name="glyph286" 
+ />
+    <glyph glyph-name="glyph287" 
+ />
+    <glyph glyph-name="glyph288" 
+ />
+    <glyph glyph-name="glyph289" 
+ />
+    <glyph glyph-name="glyph290" 
+ />
+    <glyph glyph-name="glyph291" 
+ />
+    <glyph glyph-name="glyph292" 
+ />
+    <glyph glyph-name="glyph293" 
+ />
+    <glyph glyph-name="glyph294" 
+ />
+    <glyph glyph-name="glyph295" 
+ />
+    <glyph glyph-name="glyph296" 
+ />
+    <glyph glyph-name="glyph297" 
+ />
+    <glyph glyph-name="glyph298" 
+ />
+    <glyph glyph-name="glyph299" 
+ />
+    <glyph glyph-name="glyph300" 
+ />
+    <glyph glyph-name="glyph301" 
+ />
+    <glyph glyph-name="glyph302" 
+ />
+    <glyph glyph-name="glyph303" 
+ />
+    <glyph glyph-name="glyph304" 
+ />
+    <glyph glyph-name="glyph305" 
+ />
+    <glyph glyph-name="glyph306" 
+ />
+    <glyph glyph-name="glyph307" 
+ />
+    <glyph glyph-name="glyph308" 
+ />
+    <glyph glyph-name="glyph309" 
+ />
+    <glyph glyph-name="glyph310" 
+ />
+    <glyph glyph-name="glyph311" 
+ />
+    <glyph glyph-name="glyph312" 
+ />
+    <glyph glyph-name="glyph313" 
+ />
+    <glyph glyph-name="glyph314" 
+ />
+    <glyph glyph-name="glyph315" 
+ />
+    <glyph glyph-name="glyph316" 
+ />
+    <glyph glyph-name="glyph317" 
+ />
+    <glyph glyph-name="glyph318" 
+ />
+    <glyph glyph-name="glyph319" 
+ />
+    <glyph glyph-name="glyph320" 
+ />
+    <glyph glyph-name="glyph321" 
+ />
+    <glyph glyph-name="glyph322" 
+ />
+    <glyph glyph-name="glyph323" 
+ />
+    <glyph glyph-name="glyph324" 
+ />
+    <glyph glyph-name="glyph325" 
+ />
+    <glyph glyph-name="glyph326" 
+ />
+    <glyph glyph-name="glyph327" 
+ />
+    <glyph glyph-name="glyph328" 
+ />
+    <glyph glyph-name="glyph329" 
+ />
+    <glyph glyph-name="glyph330" 
+ />
+    <glyph glyph-name="glyph331" 
+ />
+    <glyph glyph-name="glyph332" 
+ />
+    <glyph glyph-name="glyph333" 
+ />
+    <glyph glyph-name="glyph334" 
+ />
+    <glyph glyph-name="glyph335" 
+ />
+    <glyph glyph-name="glyph336" 
+ />
+    <glyph glyph-name="glyph337" 
+ />
+    <glyph glyph-name="glyph338" 
+ />
+    <glyph glyph-name="glyph339" 
+ />
+    <glyph glyph-name="glyph340" 
+ />
+    <glyph glyph-name="glyph341" 
+ />
+    <glyph glyph-name="glyph342" 
+ />
+    <glyph glyph-name="glyph343" 
+ />
+    <glyph glyph-name="glyph344" 
+ />
+    <glyph glyph-name="glyph345" 
+ />
+    <glyph glyph-name="glyph346" 
+ />
+    <glyph glyph-name="glyph347" 
+ />
+    <glyph glyph-name="glyph348" 
+ />
+    <glyph glyph-name="glyph349" 
+ />
+    <glyph glyph-name="glyph350" 
+ />
+    <glyph glyph-name="glyph351" 
+ />
+    <glyph glyph-name="glyph352" 
+ />
+    <glyph glyph-name="glyph353" 
+ />
+    <glyph glyph-name="glyph354" 
+ />
+    <glyph glyph-name="glyph355" 
+ />
+    <glyph glyph-name="glyph356" 
+ />
+    <glyph glyph-name="glyph357" 
+ />
+    <glyph glyph-name="glyph358" 
+ />
+    <glyph glyph-name="glyph359" 
+ />
+    <glyph glyph-name="glyph360" 
+ />
+    <glyph glyph-name="glyph361" 
+ />
+    <glyph glyph-name="glyph362" 
+ />
+    <glyph glyph-name="glyph363" 
+ />
+    <glyph glyph-name="glyph364" 
+ />
+    <glyph glyph-name="glyph365" 
+ />
+    <glyph glyph-name="glyph366" 
+ />
+    <glyph glyph-name="glyph367" 
+ />
+    <glyph glyph-name="glyph368" 
+ />
+    <glyph glyph-name="glyph369" 
+ />
+    <glyph glyph-name="glyph370" 
+ />
+    <glyph glyph-name="glyph371" 
+ />
+    <glyph glyph-name="glyph372" 
+ />
+    <glyph glyph-name="glyph373" 
+ />
+    <glyph glyph-name="glyph374" 
+ />
+    <glyph glyph-name="glyph375" 
+ />
+    <glyph glyph-name="glyph376" 
+ />
+    <glyph glyph-name="glyph377" 
+ />
+    <glyph glyph-name="glyph378" 
+ />
+    <glyph glyph-name="glyph379" 
+ />
+    <glyph glyph-name="glyph380" 
+ />
+    <glyph glyph-name="glyph381" 
+ />
+    <glyph glyph-name="glyph382" 
+ />
+    <glyph glyph-name="glyph383" 
+ />
+    <glyph glyph-name="glyph384" 
+ />
+    <glyph glyph-name="glyph385" 
+ />
+    <glyph glyph-name="glyph386" 
+ />
+    <glyph glyph-name="glyph387" 
+ />
+    <glyph glyph-name="glyph388" 
+ />
+    <glyph glyph-name="glyph389" 
+ />
+    <glyph glyph-name="glyph390" 
+ />
+    <glyph glyph-name="glyph391" 
+ />
+    <glyph glyph-name="glyph392" 
+ />
+    <glyph glyph-name="glyph393" 
+ />
+    <glyph glyph-name="glyph394" 
+ />
+    <glyph glyph-name="glyph395" 
+ />
+    <glyph glyph-name="glyph396" 
+ />
+    <glyph glyph-name="glyph397" 
+ />
+    <glyph glyph-name="glyph398" 
+ />
+    <glyph glyph-name="glyph399" 
+ />
+    <glyph glyph-name="glyph400" 
+ />
+    <glyph glyph-name="glyph401" 
+ />
+    <glyph glyph-name="glyph402" 
+ />
+    <glyph glyph-name="glyph403" 
+ />
+    <glyph glyph-name="glyph404" 
+ />
+    <glyph glyph-name="glyph405" 
+ />
+    <glyph glyph-name="glyph406" 
+ />
+    <glyph glyph-name="glyph407" 
+ />
+    <glyph glyph-name="glyph408" 
+ />
+    <glyph glyph-name="glyph409" 
+ />
+    <glyph glyph-name="t" unicode="t" horiz-adv-x="350" 
+d="M131.5 20q-29.5 32 -29.5 87v321h-74v28h22q45 0 70.5 48.5t25.5 107.5v36h28v-192h124v-28h-124v-326q0 -30 12 -50t41 -20q71 0 71 120h18q0 -67 -19.5 -115.5t-90.5 -48.5q-45 0 -74.5 32z" />
+    <hkern g1="R"
+	g2="Y"
+	k="44" />
+    <hkern g1="W"
+	g2="Q"
+	k="64" />
+    <hkern g1="W"
+	g2="e"
+	k="96" />
+    <hkern g1="Y"
+	g2="Q"
+	k="48" />
+    <hkern g1="Y"
+	g2="e"
+	k="72" />
+  </font>
+</defs></svg>
