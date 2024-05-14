@@ -21,8 +21,7 @@ pillow==10.2.0
 poppler-utils==0.1.0
 pycodestyle==2.11.1
 pyflakes==3.2.0
-PyMuPDF==1.24.0
-PyMuPDFb==1.24.0
+PyMuPDF==1.23.7
 PyPDF2==3.0.1
 python-dateutil==2.9.0.post0
 pytz==2024.1

@@ -11,6 +11,7 @@ fontsInFile = []
 
 inputFontPath = argv[1]
 inputFontPath=inputFontPath.replace('"', '')
+fontsInFile = fontforge.fontsInFile(inputFontPath)
 print("here inputen:", inputFontPath)
 fontsInFile = fontforge.fontsInFile(inputFontPath)
 print("fontsinfile:", fontsInFile)
@@ -25,6 +26,7 @@ fonts_string = ".svg ".join(fontsInFile)
 fonts_string = fonts_string + ".svg " + argv[1]
 #log 23:32-24-04
 print("test fontS_string", fonts_string)
+print("\n What's t")
 
 os.system("python3 font_extractor/svg_parser/parse_svg.py " + fonts_string + " " + argv[2] + " " + argv[3] + " " + argv[4])
     

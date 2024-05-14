@@ -1,5 +1,4 @@
-from math import ceil, sqrt, tan
-from queue import Queue
+from math import sqrt, tan
 
 from numpy import deg2rad
 from line import Line
@@ -54,7 +53,7 @@ class Gcode:
     
     
 
-    def lines_to_Gcode_with_G5(lines: list[Line]):
+    def lines_to_Gcode_with_G5(lines: list[Line]) -> str:
         last_line: Line = None
         output: str = "G90 G17\n"
         for line in lines:
@@ -93,7 +92,7 @@ class Gcode:
             last_line = line
         return output
     
-    def lines_to_Gcode_with_radius(lines, radiuses, millAngle, millHeight, millTravelSpeed, accuracy: float = 0.1):
+    def lines_to_Gcode_with_radius(lines: list[Line], radiuses: list[float], millAngle: float, millHeight: float, millTravelSpeed: float, accuracy: float = 0.1) -> str:
         output = ''
         non_milling_travel_speed = 100
         millHeight *= 0.95
@@ -162,12 +161,12 @@ class Gcode:
         return output
 
 
-def _bezier(x0, y0, x1, y1, x2, y2, t):
+def _bezier(x0, y0, x1, y1, x2, y2, t) -> tuple[float, float]:
         x = ((1-t)*(1-t))*x0 + 2*(1-t)*t*x1 + t*t*x2
         y = ((1-t)*(1-t))*y0 + 2*(1-t)*t*y1 + t*t*y2
         return (x,y)
 
-def normal_right(x0, y0, x1, y1):
+def normal_right(x0, y0, x1, y1) -> tuple[float, float]:
     y = y1 - y0
     x = x1 - x0
     if x == 0 and y == 0:
@@ -179,7 +178,7 @@ def normal_right(x0, y0, x1, y1):
     return (y, -x)
 
 # angle in degrees    
-def heightForRadius(radius: float, angle: float):
+def heightForRadius(radius: float, angle: float) -> float:
     if angle >= 180 or angle <= 0:
         return 0
     

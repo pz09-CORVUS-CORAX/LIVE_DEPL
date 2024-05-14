@@ -167,12 +167,12 @@ def convert_pdf():
          drill_angle, drill_active_height, drill_movement_speed
     ])
         #2. log23:00-29.04:
-        with open('gcode.gcode', 'r') as f:
+        with open('output.gcode', 'r') as f:
             gcode_content = f.read()
 
         return gcode_content, 200, {
             'Content-Type': 'text/plain',  # Or another appropriate MIME type 
-            'Content-Disposition': 'attachment; filename=converted.gcode'
+            'Content-Disposition': 'attachment; filename=output.gcode'
         }
     except subprocess.CalledProcessError as e:
         logging.error("Failed to convert PDF to SVG: %s", e)
@@ -181,7 +181,7 @@ def convert_pdf():
     finally:
         if os.path.exists(file_path):
             os.remove(file_path)
-        cleanup_files = ['fonts.json', 'pdf_text.json', 'gcode.gcode']
+        cleanup_files = ['fonts.json', 'pdf_text.json', 'output.gcode']
         for file_to_delete in cleanup_files:
             if os.path.exists(file_to_delete):
                 os.remove(file_to_delete) 
