@@ -23,8 +23,8 @@ temp_file_tracking = {}
 def cleanup_temp_pdfs():
     print("Inside cleanup function")
     temp_dir = 'static/temporaries' # Replace with your actual directory
-    expiration_time = datetime.now() - timedelta(minutes=60)  # 1 minute ago
-    
+    expiration_time = datetime.now() - timedelta(minutes=10)
+
     for filename in os.listdir(temp_dir):
         if filename.endswith('.pdf'):
             file_path = os.path.join(temp_dir, filename)
