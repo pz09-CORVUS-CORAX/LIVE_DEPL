@@ -19,7 +19,10 @@ app.logger.setLevel(logging.DEBUG)
 # ustawienia sesji
 
 #log 01:00-11-04
-custom_temp_dir = "static/temporaries" 
+custom_temp_dir = "static/temporaries"
+#log 23:00-17-05
+if not os.path.exists(custom_temp_dir):
+    os.makedirs(custom_temp_dir)
 
 pdf_blueprint = Blueprint('pdf_blueprint', __name__)
 
