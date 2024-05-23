@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y curl && \
     curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs
 # Change to the specific directory
-WORKDIR /app/font_extractor/svg_parser/mat_js
+WORKDIR /app/font_extractor/svg_parser/mat-js
 #Install project-specific Node.js dependencies;
 RUN npm install
 #Set the working directory back to the main project directory

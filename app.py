@@ -13,18 +13,21 @@ import json
 
 
 app = Flask(__name__)
-# cors = CORS(app, origins='*')
 CORS(app, origins="*", supports_credentials=True) 
-app.logger.setLevel(logging.DEBUG)  
+app.logger.setLevel(logging.DEBUG)
 # ustawienia sesji
 
-#log 01:00-11-04
 custom_temp_dir = "static/temporaries" 
+if not os.path.exists(custom_temp_dir):
+    os.makedirs(custom_temp_dir)
 
 pdf_blueprint = Blueprint('pdf_blueprint', __name__)
 
 @pdf_blueprint.route('/upload-pdf', methods=['POST'])
 def upload_pdf():
+    """
+    Funkcja obsługująca wczyttwanie pliku PDF, sprawdza rozmiar i format oraz umozliwia tymczasowy zapis.
+    """
     try:
         print(request.method)
         print("Inside upload_pdf route")
@@ -46,19 +49,16 @@ def upload_pdf():
                     os.remove(file.filename)
                     return jsonify({"error": "Nieprawidlowy format pliku"}), 400
                 
-                # if file and allowed_file(file.filename):
                 try:
                     temp_pdf = tempfile.NamedTemporaryFile(delete=False, suffix='.pdf', dir=custom_temp_dir)
                     file.seek(0)  # Reset file pointer for reading
                     temp_pdf.write(file.read())
-                    # temp_pdf.close()
-                    #new log 17:05-10-04
+
                     print('Temp file created[/upload-pdf]:', temp_pdf.name)
                     print('File exists[/upload-pdf], Size:', os.path.getsize(temp_pdf.name))
                     print('File contents[/uplaod-pdf] (first 300 bytes):', file.read(300))
                     print('[/upload-pdf] pdf_path before setPdfPath(temp_pdf.name):', temp_pdf.name)
 
-                    # temp_pdf.seek(0) 
                     initial_bytes = temp_pdf.read(300)
                     print("PDF Path(/upload-pdf -> temp_pdf.name):", temp_pdf.name)  # Verify the temporary file path
 
@@ -67,8 +67,7 @@ def upload_pdf():
                     print("Full absolute path of temp file:", os.path.abspath(temp_pdf.name))
                     
                     print("pdf_path in upload_pdf route: %s", pdf_path)
-                    # else:
-                    # return jsonify({"error": "Nieprawidłowy format pliku"}), 400
+                    
                 except Exception as e:
                     logging.exception("Unexpected error during file handling:", e)
                     os.remove(pdf_path)
@@ -77,9 +76,7 @@ def upload_pdf():
                 print("No file found in the request")
                 os.remove(pdf_path)
                 return jsonify({"error": "Brak części plikowej"}), 400
-        # 22:48-11-04
-        # os.remove(pdf_path)
-        # new edit 09:58-11-04
+        
         return jsonify({"pdf_path": pdf_path})
     except Exception as e:
         os.remove(pdf_path)
@@ -90,10 +87,12 @@ def upload_pdf():
 def redirect_from_get():
     return redirect('/')
 
-# @cross_origin()
 @pdf_blueprint.route('/validate-pdf', methods=['POST'])
 @cross_origin()
 def validate_pdf():
+    """
+        Funkcja odpowiadająca za walidację wczytanego pliku i stwierdzenie jego istnienia, oraz obsługi w aplikacji.
+    """
     print(request.method)
     print("Inside validate-pdf route")
     print(request.files)  # Log the content of the files received
@@ -124,12 +123,15 @@ def validate_pdf():
         os.remove(pdf_path)
         return jsonify({"error": "Internal server error[validate-block]"}),
     os.remove(pdf_path)
-    print("wypisz pliki w [validate-pdf]:", request.files)  # Log the content of the files received
+
     return jsonify({"isValid": True})
 
 
 @pdf_blueprint.route('/workfile/<path:pdf_path>')
 def get_pdf(pdf_path):
+    """
+        Obsługa pliku dostępna tylko po stronie serwera.
+    """
     if cache.get(pdf_path):
         return send_file(pdf_path, as_attachment=False)
     else:
@@ -138,14 +140,15 @@ def get_pdf(pdf_path):
        
 @pdf_blueprint.route('/convert-pdf', methods=['POST'])
 def convert_pdf():
+    """
+        Funkcja odpowiadająca za konwersję pliku na gcode z wykorzystaniem procesu fontforge.
+    """
     print(request.method)
     print("Inside convert-pdf route")
     print(request.files)  # Log the content of the files received
     print(request.data)  # Print raw request data
     print(request.form)  # Print form data
-    # edit 19:49-16-04 + 20:30-16-04
     file_path = request.form.get('pdf_path')
-    #changelog 17:30-08-05
     drill_angle = request.form.get('drill_angle')
     drill_active_height = request.form.get('drill_active_height')
     drill_movement_speed = request.form.get('drill_movement_speed')
@@ -161,12 +164,12 @@ def convert_pdf():
     try:
         #1
         print("file_path przed procesesm", file_path)
-        #changelog 17:30-08-05
+
         subprocess.check_call([
             'fontforge', '-script', 'font_extractor/font_extractor.py', f'"{file_path}"', 
          drill_angle, drill_active_height, drill_movement_speed
     ])
-        #2. log23:00-29.04:
+
         with open('output.gcode', 'r') as f:
             gcode_content = f.read()
 
@@ -196,7 +199,7 @@ app.config['CACHE_TYPE'] = 'simple'
 app.config['CACHE_DEFAULT_TIMEOUT'] = 3600
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.register_blueprint(pdf_blueprint, url_prefix='/pdf')
-#changelog'13-05/2024
+
 scheduler = BackgroundScheduler()
 scheduler.add_job(cleanup_temp_pdfs, 'interval', minutes=30)
 scheduler.start()

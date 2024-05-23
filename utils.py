@@ -3,9 +3,15 @@ import fitz
 import os
 
 def allowed_file(filename):
+    """
+        Funkcja pozwalająca ustalić czy wstawiony plik jest obsługiwany przez format pdf.
+    """
     return '.' in filename and filename.rsplit('.',1)[1].lower() == 'pdf'
 
 def get_pdf_size_with_pymupdf(pdf_path):
+    """
+        Funkcja umozliwiajaca pobranie rozmiaru dokumentu.
+    """
     doc = fitz.open(pdf_path)
     page = doc.load_page(0)
     width_cm = (page.rect.width / 72) * 2.54
@@ -14,6 +20,9 @@ def get_pdf_size_with_pymupdf(pdf_path):
     return width_cm, height_cm
 
 def is_pdf_size_valid(pdf_path, max_width_cm = 50, max_height_cm = 50):
+    """
+        Funkcja sprawdzajaca czy rozmiar pliku jest poprawny i nie zaburzy pracy serwisu
+    """
     width_cm, height_cm = get_pdf_size_with_pymupdf(pdf_path)
     return width_cm <= max_width_cm and height_cm <= max_height_cm
 
@@ -21,6 +30,9 @@ def is_pdf_size_valid(pdf_path, max_width_cm = 50, max_height_cm = 50):
 temp_file_tracking = {}
 
 def cleanup_temp_pdfs():
+    """
+        Funkcja odpowiadajaca za usuwanie plikow tymczasowych - zabezpieczenie przed obciazeniem serwera.
+    """
     print("Inside cleanup function")
     temp_dir = 'static/temporaries' # Replace with your actual directory
     expiration_time = datetime.now() - timedelta(minutes=60)  # 1 minute ago
