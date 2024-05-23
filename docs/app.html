@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module app</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">app</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/bilunotp/UMK/LIVE_DEPL/app.py">/Users/bilunotp/UMK/LIVE_DEPL/app.py</a></td></tr></table>
+    <p></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="base64.html">base64</a><br>
+<a href="fitz.html">fitz</a><br>
+</td><td class="multicolumn"><a href="json.html">json</a><br>
+<a href="logging.html">logging</a><br>
+</td><td class="multicolumn"><a href="os.html">os</a><br>
+<a href="subprocess.html">subprocess</a><br>
+</td><td class="multicolumn"><a href="tempfile.html">tempfile</a><br>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-convert_pdf"><strong>convert_pdf</strong></a>()</dt><dd><span class="code">Funkcja&nbsp;odpowiadająca&nbsp;za&nbsp;konwersję pliku&nbsp;na&nbsp;gcode&nbsp;z&nbsp;wykorzystaniem&nbsp;procesu&nbsp;fontforge.</span></dd></dl>
+ <dl><dt><a name="-get_pdf"><strong>get_pdf</strong></a>(pdf_path)</dt><dd><span class="code">Obsługa&nbsp;pliku&nbsp;dostępna&nbsp;tylko&nbsp;po&nbsp;stronie&nbsp;serwera.</span></dd></dl>
+ <dl><dt><a name="-redirect_from_get"><strong>redirect_from_get</strong></a>()</dt><dd><span class="code">Funkcja&nbsp;wywolywana&nbsp;na&nbsp;bledny&nbsp;path&nbsp;podany&nbsp;-&nbsp;redirect</span></dd></dl>
+ <dl><dt><a name="-upload_pdf"><strong>upload_pdf</strong></a>()</dt><dd><span class="code">Funkcja&nbsp;obsługująca&nbsp;wczyttwanie&nbsp;pliku&nbsp;PDF,&nbsp;sprawdza&nbsp;rozmiar&nbsp;i&nbsp;format&nbsp;oraz&nbsp;umozliwia&nbsp;tymczasowy&nbsp;zapis.</span></dd></dl>
+ <dl><dt><a name="-validate_pdf"><strong>validate_pdf</strong></a>()</dt><dd><span class="code">Funkcja&nbsp;odpowiadająca&nbsp;za&nbsp;walidację&nbsp;wczytanego&nbsp;pliku&nbsp;i&nbsp;stwierdzenie&nbsp;jego&nbsp;istnienia,&nbsp;oraz&nbsp;obsługi&nbsp;w&nbsp;aplikacji.</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>app</strong> = &lt;Flask 'app'&gt;<br>
+<strong>cache</strong> = &lt;flask_caching.Cache object&gt;<br>
+<strong>current_app</strong> = &lt;LocalProxy unbound&gt;<br>
+<strong>custom_temp_dir</strong> = 'static/temporaries'<br>
+<strong>pdf_blueprint</strong> = &lt;Blueprint 'pdf_blueprint'&gt;<br>
+<strong>request</strong> = &lt;LocalProxy unbound&gt;<br>
+<strong>scheduler</strong> = &lt;apscheduler.schedulers.background.BackgroundScheduler object&gt;<br>
+<strong>session</strong> = &lt;LocalProxy unbound&gt;</td></tr></table>
+</body></html>
