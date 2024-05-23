@@ -1,5 +1,4 @@
 from math import sqrt
-from drawer import Drawer
 from bezier_tools import Bezier
 from numpy.linalg import norm
 from numpy import array
@@ -125,16 +124,6 @@ class Line:
                         self.points[i] += self.last_point[0]
                     else:
                         self.points[i] += self.last_point[1]
-
-    def draw_line(self, drawer: Drawer):
-        if self.ltype == 'L':
-            drawer.line(self.last_point[0], self.last_point[1], self.points[0], self.points[1])
-        elif self.ltype == 'l':
-            drawer.line(self.last_point[0], self.last_point[1], self.last_point[0]+self.points[0], self.last_point[1]+self.points[1])
-        elif self.ltype == 'Q':
-            drawer.bezier(self.last_point[0], self.last_point[1], self.points[0], self.points[1], self.points[2], self.points[3])
-        elif self.ltype == 'Z':
-            drawer.line(self.last_point[0], self.last_point[1], self.last_M_point[0], self.last_M_point[1])
 
     def distance_to_line(self, point: list[float]):
         if self.ltype == 'L':

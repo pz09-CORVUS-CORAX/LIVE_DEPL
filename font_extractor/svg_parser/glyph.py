@@ -1,7 +1,5 @@
-from calendar import c
-from drawer import Drawer
 from line import Line
-from numpy import array, cross, dot
+from numpy import array, cross
 from bezier_tools import Bezier
 from numpy.linalg import norm
 
@@ -134,10 +132,6 @@ class Glyph:
             glyph_str += line.print_line_point_notation(accuracy)
         return glyph_str
      
-    def draw_glyph(self, drawer: Drawer):
-        for line in self.lines:
-            line.draw_line(drawer)
-
     def closest_line(self, point: list[float]) -> Line:
         closest_line = self.lines[0]
         closest_distance = closest_line.distance_to_line(point)

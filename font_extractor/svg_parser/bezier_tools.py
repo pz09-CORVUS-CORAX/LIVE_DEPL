@@ -2,8 +2,6 @@ from math import comb
 from numpy.linalg import norm
 from numpy import array
 
-from drawer import Drawer
-
 class Bezier:
     def __init__(self, control_points: list[list[float]]):
         self.control_points = array(control_points)
@@ -75,10 +73,6 @@ class Bezier:
             y.append(p[1])
 
         return [[min(x), min(y)], [max(x), max(y)]]
-
-    def draw_quadratic_bounding_box(self, drawer: Drawer):
-        bb = self.quadratic_bounding_box()
-        drawer.box(bb[0], bb[1], "green")
 
     def is_in_bounding_box(self, point: list[float]) -> bool:
         bb = self.quadratic_bounding_box()
