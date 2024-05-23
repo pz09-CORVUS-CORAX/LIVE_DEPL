@@ -2,7 +2,7 @@ name: Flask CI/CD Pipeline
 
 on:
   push:
-    branches: [ "Feature/Pdf-as-svg", "Feature/PDFValidation", "main" ]
+    branches: [ "Feature/Pdf-as-svg", "Feature/PDFValidation", "main", "Docs/FinishedService" ]
   pull_request:
     branches: [ "main" ]
 
