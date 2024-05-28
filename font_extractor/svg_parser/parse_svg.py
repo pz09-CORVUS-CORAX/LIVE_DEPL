@@ -69,7 +69,7 @@ for b in pdf_dict['blocks']:
                 glyph.scale(0.3937007874, 0.3937007874) #Inches to mm conversion
                 radiuses = []
                 for circle in circles:
-                    radiuses.append(circle['radius'] * scale_factor) 
+                    radiuses.append(circle['radius'] * scale_factor * 0.3937007874) 
                     
                 file.write(Gcode.lines_to_Gcode_with_radius(glyph.lines, radiuses, drillAngle, drillActiveHeight, drillMovementSpeed))
                 break
